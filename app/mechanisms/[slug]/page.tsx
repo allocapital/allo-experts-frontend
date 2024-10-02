@@ -38,9 +38,9 @@ export default async function MechanismPage({
         <div>
           <main className="bg-white flex flex-col gap-12">
             <section
-              className={`relative px-4 bg-[${mechanism.background_color}]`}
+              className={`relative sm:min-h-[250px] px-4 bg-[${mechanism.background_color}]`}
             >
-              <div className="pb-24 lg:pt-12 pt-5">
+              <div className="pb-16 lg:pt-16 pt-5">
                 <div className="max-w-2xl mx-auto">
                   <div className="mb-8 lg:hidden">
                     <Link href="/mechanisms" className="">
@@ -55,7 +55,7 @@ export default async function MechanismPage({
                     </Link>
                   </div>
                   <h1 className="font-bold text-3xl sm:text-6xl max-w-[11ch] !leading-[120%]">
-                    {mechanism.title}{" "}
+                    {mechanism.title}
                   </h1>
                 </div>
               </div>
@@ -78,8 +78,8 @@ export default async function MechanismPage({
                   className="sm:max-w-none max-w-[150px] h-auto"
                   src={`${process.env.NEXT_PUBLIC_CLOUDINARY_BASE_URL}/${mechanism.background_img}`}
                   alt=""
-                  width={300}
-                  height={289}
+                  width={250}
+                  height={250}
                   aria-label="hidden"
                 />
               </div>
