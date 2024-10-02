@@ -1,101 +1,174 @@
 import Image from "next/image";
+import { Button } from "./components/button";
+import HeroActions from "./components/hero-actions";
+import Link from "next/link";
+import { Footer } from "./components/footer";
+import ItemCard from "./components/item-card";
+import { getExperts, getMechanisms } from "@/lib/api";
+import ExpertCard from "./components/expert-card";
 
-export default function Home() {
+async function getMechanismsList() {
+  const data = await getMechanisms();
+  return data;
+}
+
+async function getExpertsList() {
+  const data = await getExperts();
+  return data;
+}
+
+export default async function Home() {
+  const mechanisms = await getMechanismsList();
+  const experts = await getExpertsList();
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+    <div>
+      <main className="bg-white p-0 flex flex-col gap-24">
+        <div className="">
+          <section className="relative bg-hero-bg-gradient bg-cover bg-bottom">
+            <div className="px-4 ">
+              <div className="sm:pt-44 pt-32 pb-56 sm:pl-16">
+                <h1 className="font-extrabold sm:text-4xl text-2xl md:text-5xl !leading-[120%] max-w-[22ch] mb-10">
+                  Become an expert in onchain capital allocation.{" "}
+                  <span className="text-blue-600">
+                    Hire experts in onchain capital allocation.
+                  </span>
+                </h1>
+                <HeroActions />
+              </div>
+            </div>
             <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+              className="absolute right-0 bottom-1/2 sm:translate-y-[45%] -translate-y-[45%] sm:opacity-100 opacity-30 lg:max-w-none max-w-[200px] h-auto"
+              src="/hero-shape.svg"
+              alt=""
+              width={387}
+              height={584}
+              aria-label="hidden"
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+          </section>
+
+          <section className="w-fit mx-auto -mt-[10rem] relative z-10 px-2">
+            <h2 className="font-extrabold text-3xl text-blue-600 mb-6">Experts</h2>
+            <div className="grid sm:grid-cols-3 grid-cols-2 w-fit mx-auto sm:gap-8 gap-2 gap-y-12">
+              {experts.map((entry) => (
+                <ExpertCard
+                  key={entry.id}
+                  expert={entry}
+                />
+              ))}
+            </div>
+          </section>
         </div>
+        <section className="w-fit mx-auto px-2">
+          <div className="flex items-center gap-6 sm:flex-row flex-col-reverse">
+            <div>
+              <h2 className="font-extrabold text-3xl text-blue-600 mb-6">
+                Become an expert
+              </h2>
+              <p className="max-w-md mb-12">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut
+                mattis nisi sit amet sodales bibendum. Cras dictum vulputate
+                odio tincidunt tincidunt. Donec non eleifend lacus. Vivamus
+                vitae ultrices elit.
+              </p>
+              <div className="flex gap-2 items-center sm:flex-row flex-col">
+                <Link
+                  className="sm:w-auto w-full"
+                  href={
+                    "https://www.blurb.com/b/12052748-onchain-capital-allocation-handbook"
+                  }
+                  target="_blank"
+                >
+                  <Button
+                    type="primary"
+                    isLoading={false}
+                    className="sm:w-auto w-full"
+                  >
+                    Get the book
+                  </Button>
+                </Link>
+                <Link
+                  href={"https://allobook.gitcoin.co/"}
+                  target="_blank"
+                  className="sm:w-auto w-full"
+                >
+                  <Button
+                    type="secondary"
+                    isLoading={false}
+                    className="sm:w-auto w-full"
+                  >
+                    Visit website
+                  </Button>
+                </Link>
+              </div>
+            </div>
+            <Image
+              src="/allobook-cover.png"
+              alt="Allo book cover"
+              width={329}
+              height={493}
+            />
+          </div>
+        </section>
+
+        <section className="w-fit mx-auto px-2">
+          <div className="flex items-center justify-between gap-4 flex-wrap mb-8">
+            <h2 className="font-extrabold text-3xl">Join a learning cohort</h2>
+            <Link href="/learn" className="self-end ml-auto">
+              <Button type="primary" isLoading={false}>
+                View all
+              </Button>
+            </Link>
+          </div>
+
+          <div className="grid sm:grid-cols-3 grid-cols-1 w-fit mx-auto gap-8">
+            <ItemCard
+              title="Become a Quadratic Funding dev expert"
+              subtitle="Start date: 11/11/2024"
+              buttonTitle="Apply to cohort"
+            />
+            <ItemCard
+              title="Become a Quadratic Funding dev expert"
+              subtitle="Start date: 11/11/2024"
+              buttonTitle="Apply to cohort"
+            />
+            <ItemCard
+              title="Become a Quadratic Funding dev expert"
+              subtitle="Start date: 11/11/2024"
+              buttonTitle="Apply to cohort"
+            />
+          </div>
+        </section>
+
+        <section className="w-fit mx-auto px-2">
+          <div className="flex items-center justify-between gap-4 flex-wrap mb-8">
+            <h2 className="font-extrabold text-3xl">Allocation Mechanisms</h2>
+            <Link href="/mechanisms" className="ml-auto">
+              <Button type="primary" isLoading={false}>
+                View all
+              </Button>
+            </Link>
+          </div>
+
+          <div className="grid sm:grid-cols-3 grid-cols-2 w-fit mx-auto sm:gap-8 gap-2 gap-y-12">
+            {mechanisms.map((entry) => {
+              return (
+                <ItemCard
+                  key={entry.slug}
+                  title={entry.title}
+                  subtitle="Description"
+                  buttonTitle="Learn more"
+                  imgBg={entry.background_color}
+                  imgSrc={`${process.env.NEXT_PUBLIC_CLOUDINARY_BASE_URL}/${entry.background_img}`}
+                  to={`/mechanisms/${entry.slug}`}
+                />
+              );
+            })}
+          </div>
+        </section>
+
+        <Footer showMechForm={true} />
       </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
     </div>
   );
 }
