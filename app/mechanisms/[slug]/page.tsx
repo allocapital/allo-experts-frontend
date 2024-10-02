@@ -40,7 +40,7 @@ export default async function MechanismPage({
             <section
               className={`relative sm:min-h-[250px] px-4 bg-[${mechanism.background_color}]`}
             >
-              <div className="pb-16 lg:pt-16 pt-5">
+              <div className="pb-12 lg:pt-12 pt-5">
                 <div className="max-w-2xl mx-auto">
                   <div className="mb-8 lg:hidden">
                     <Link href="/mechanisms" className="">
