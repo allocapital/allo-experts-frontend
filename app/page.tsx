@@ -156,7 +156,6 @@ export default async function Home() {
                 <ItemCard
                   key={entry.slug}
                   title={entry.title}
-                  subtitle="Description"
                   buttonTitle="Learn more"
                   imgBg={entry.background_color}
                   imgSrc={`${process.env.NEXT_PUBLIC_CLOUDINARY_BASE_URL}/${entry.background_img}`}
