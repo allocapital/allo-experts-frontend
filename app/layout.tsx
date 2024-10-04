@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "./components/header";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://allo.expert"),
   title: "Allo Experts",
   description: "",
   icons: {
@@ -36,7 +37,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={` ${mono.variable} ${sans.variable} font-sans`}>
-        {" "}
         <Header />
         {children}
       </body>

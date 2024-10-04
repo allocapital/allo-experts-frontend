@@ -4,7 +4,7 @@ import HeroActions from "./components/hero-actions";
 import Link from "next/link";
 import { Footer } from "./components/footer";
 import ItemCard from "./components/item-card";
-import { getExperts, getMechanisms } from "@/lib/api";
+import { getCourses, getExperts, getMechanisms } from "@/lib/api";
 import ExpertCard from "./components/expert-card";
 
 async function getMechanismsList() {
@@ -17,9 +17,17 @@ async function getExpertsList() {
   return data;
 }
 
+async function getCoursesList() {
+  const data = await getCourses();
+  return data;
+}
+
 export default async function Home() {
-  const mechanisms = await getMechanismsList();
-  const experts = await getExpertsList();
+  const [mechanisms, experts, courses] = await Promise.all([
+    getMechanismsList(),
+    getExpertsList(),
+    getCoursesList(),
+  ]);
 
   return (
     <div>
@@ -48,15 +56,16 @@ export default async function Home() {
           </section>
 
           <section className="w-fit mx-auto -mt-[10rem] relative z-10 px-2">
-            <h2 className="font-extrabold text-3xl text-blue-600 mb-6">Experts</h2>
-            <div className="grid sm:grid-cols-3 grid-cols-2 w-fit mx-auto sm:gap-8 gap-2 gap-y-12">
-              {experts.map((entry) => (
-                <ExpertCard
-                  key={entry.id}
-                  expert={entry}
-                />
-              ))}
-            </div>
+            <h2 className="font-extrabold text-3xl text-blue-600 mb-6">
+              Experts
+            </h2>
+            {!!experts?.length && (
+              <div className="grid sm:grid-cols-3 grid-cols-2 w-fit mx-auto sm:gap-8 gap-2 gap-y-12">
+                {experts.map((entry) => (
+                  <ExpertCard key={entry.id} expert={entry} />
+                ))}
+              </div>
+            )}
           </section>
         </div>
         <section className="w-fit mx-auto px-2">
@@ -114,7 +123,7 @@ export default async function Home() {
         <section className="w-fit mx-auto px-2">
           <div className="flex items-center justify-between gap-4 flex-wrap mb-8">
             <h2 className="font-extrabold text-3xl">Join a learning cohort</h2>
-            <Link href="/learn" className="self-end ml-auto">
+            <Link href="/courses" className="self-end ml-auto">
               <Button type="primary" isLoading={false}>
                 View all
               </Button>
@@ -122,21 +131,19 @@ export default async function Home() {
           </div>
 
           <div className="grid sm:grid-cols-3 grid-cols-1 w-fit mx-auto gap-8">
-            <ItemCard
-              title="Become a Quadratic Funding dev expert"
-              subtitle="Start date: 11/11/2024"
-              buttonTitle="Apply to cohort"
-            />
-            <ItemCard
-              title="Become a Quadratic Funding dev expert"
-              subtitle="Start date: 11/11/2024"
-              buttonTitle="Apply to cohort"
-            />
-            <ItemCard
-              title="Become a Quadratic Funding dev expert"
-              subtitle="Start date: 11/11/2024"
-              buttonTitle="Apply to cohort"
-            />
+            {courses.map((entry) => {
+              return (
+                <ItemCard
+                  key={entry.slug}
+                  title={entry.title}
+                  subtitle="Start date: 11/11/2024"
+                  buttonTitle="Apply to cohort"
+                  imgBg={entry.background_color}
+                  imgSrc={`${process.env.NEXT_PUBLIC_CLOUDINARY_BASE_URL}/${entry.background_img}`}
+                  to={`/courses/${entry.slug}`}
+                />
+              );
+            })}
           </div>
         </section>
 
