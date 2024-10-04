@@ -36,7 +36,7 @@ export default function ContactModal({
       <h3 className="text-center text-lg text-blue-600 font-semibold mb-8">
         {expert.name}
       </h3>
-      <div className="flex items-center flex-col gap-5">
+      <div className="flex items-center flex-col gap-2">
         <div className="flex items-center gap-2">
           <Image
             src="/email.svg"
@@ -45,7 +45,7 @@ export default function ContactModal({
             height={24}
             aria-label="email icon"
           />
-          <a target="_blank" href={`mailto:${expert.contact_info_email}`}>
+          <a target="_blank" className="link" href={`mailto:${expert.contact_info_email}`}>
             {expert.contact_info_email}
           </a>
         </div>
@@ -58,7 +58,7 @@ export default function ContactModal({
             aria-label="telegram icon"
           />
           <a
-            target="_blank"
+            target="_blank" className="link"
             href={getTelegramLink(expert.contact_info_telegram)}
           >
             {expert.contact_info_telegram}
@@ -73,7 +73,7 @@ export default function ContactModal({
             aria-label="x icon"
           />
           <a
-            target="_blank"
+            target="_blank" className="link"
             href={`https://x.com/${getTwitterUsername(
               expert.contact_info_twitter
             )}`}

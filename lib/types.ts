@@ -7,6 +7,17 @@ export type Mechanism = {
   background_color: string;
 };
 
+export type Course = {
+  id: number;
+  title: string;
+  description: string;
+  slug: string;
+  background_img: string;
+  background_color: string;
+  startDate: string;
+  applyUrl: string;
+};
+
 export enum EXPERT_IN {
   ALLO_MECHANISMS = 'allo_mechanisms',
   ALLO_DEV = 'allo_dev'

@@ -33,13 +33,15 @@ export const Footer = ({
     )}
     <footer className="py-10">
       <div className="flex items-center sm:flex-row flex-col gap-4 sm:gap-10">
-        <Image
-          className="max-h-[20px] w-auto"
-          src="/allo-logo-black.svg"
-          alt="Allo Protocol Logo"
-          width={111}
-          height={30}
-        />
+        <Link href="https://allo.gitcoin.co/" target="_blank">
+          <Image
+            className="max-h-[20px] w-auto"
+            src="/allo-logo-black.svg"
+            alt="Allo Protocol Logo"
+            width={111}
+            height={30}
+          />
+        </Link>
 
         <nav>
           <ul className="font-semibold flex items-center gap-8">

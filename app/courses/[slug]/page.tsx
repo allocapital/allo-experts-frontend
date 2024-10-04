@@ -1,6 +1,5 @@
 import { Footer } from "@/app/components/footer";
-import { getMechanismBySlug, getMechanisms } from "@/lib/api";
-import { Mechanism } from "@/lib/types";
+import { getCourseBySlug, getCourses } from "@/lib/api";
 import { Metadata, ResolvingMetadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -8,32 +7,18 @@ import { remark } from "remark";
 import html from "remark-html";
 
 export async function generateStaticParams() {
-  const data = await getMechanisms();
+  const data = await getCourses();
   return data.map((entry) => ({
     slug: entry.slug,
   }));
-}
-
-async function getMechanism(params: { slug: string }) {
-  const data = await getMechanismBySlug(params.slug);
-
-  if (data?.description) {
-    const processedContent = await remark().use(html).process(data.description);
-    const contentHtml = processedContent.toString();
-    data.description = contentHtml;
-  }
-
-  return data;
 }
 
 export async function generateMetadata(
   { params }: { params: { slug: string } },
   parent: ResolvingMetadata
 ): Promise<Metadata> {
-  const mechanism = await getMechanism(params);
-  const ogTitle = mechanism
-    ? `${mechanism.title} | Allocation Mechanism`
-    : `Allocation Mechanisms`;
+  const course = await getCourse(params);
+  const ogTitle = course ? `${course.title} | Learning Cohort` : `Learning Cohorts`;
   const ogDescription = "";
 
   return {
@@ -51,26 +36,35 @@ export async function generateMetadata(
   };
 }
 
-export default async function MechanismPage({
+async function getCourse(params: { slug: string }) {
+  const data = await getCourseBySlug(params.slug);
+  if (data?.description) {
+    const processedContent = await remark().use(html).process(data.description);
+    if (!processedContent) return;
+    const contentHtml = processedContent.toString();
+    data.description = contentHtml;
+  }
+  return data;
+}
+
+export default async function CoursePage({
   params,
 }: {
   params: { slug: string };
 }) {
-  const mechanism = await getMechanism(params);
+  const course = await getCourse(params);
   return (
     <>
-      {!!mechanism ? (
+      {!!course ? (
         <div>
-          <main className="bg-white flex flex-col gap-12">
-            <section
-              className={`relative sm:min-h-[250px] px-4 bg-[${mechanism.background_color}]`}
-            >
+          <main className="bg-white flex flex-col gap-8">
+            <section className={`relative sm:min-h-[250px] px-4 bg-[]`}>
               <div className="pb-12 lg:pt-12 pt-5">
-                <div className="max-w-2xl mx-auto">
+                <div className="max-w-2xl mx-auto flex items-center gap-2">
                   <div className="mb-8 lg:hidden">
-                    <Link href="/mechanisms" className="">
+                    <Link href="/courses" className="">
                       <Image
-                        className={`sm:max-w-none max-w-[15px] h-auto bg-[${mechanism.background_color}]`}
+                        className={`sm:max-w-none max-w-[15px] h-auto bg-[]`}
                         src="/back-icon.svg"
                         alt="Back"
                         width={29}
@@ -79,14 +73,15 @@ export default async function MechanismPage({
                       />
                     </Link>
                   </div>
+
                   <h1 className="font-bold text-3xl sm:text-6xl max-w-[11ch] !leading-[120%]">
-                    {mechanism.title}
+                    {course.title}
                   </h1>
                 </div>
               </div>
 
               <div className="absolute left-24 bottom-1/2 translate-y-1/2 lg:block hidden">
-                <Link href="/mechanisms">
+                <Link href="/courses">
                   <Image
                     className="sm:max-w-none max-w-[15px] h-auto"
                     src="/back-icon.svg"
@@ -101,7 +96,7 @@ export default async function MechanismPage({
               <div className="absolute right-4 sm:right-24 bottom-1/2 translate-y-1/2 overflow-hidden">
                 <Image
                   className="sm:max-w-none max-w-[150px] h-auto"
-                  src={`${process.env.NEXT_PUBLIC_CLOUDINARY_BASE_URL}/${mechanism.background_img}`}
+                  src={`${process.env.NEXT_PUBLIC_CLOUDINARY_BASE_URL}/${course.background_img}`}
                   alt=""
                   width={250}
                   height={250}
@@ -110,17 +105,15 @@ export default async function MechanismPage({
               </div>
             </section>
 
-            <section className="px-4 max-w-2xl mx-auto">
-              <div
-                dangerouslySetInnerHTML={{ __html: mechanism.description }}
-              />
+            <section className="px-4 max-w-2xl mx-auto pt-8 border-t border-gray-900 w-full">
+              <div dangerouslySetInnerHTML={{ __html: course.description }} />
             </section>
 
-            <Footer showMechForm={true} />
+            <Footer />
           </main>
         </div>
       ) : (
-        <div>Mechanism not found</div>
+        <div>Course not found</div>
       )}
     </>
   );
