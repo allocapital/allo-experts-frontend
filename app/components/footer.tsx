@@ -2,11 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button } from "./button";
 
-export const Footer = ({
-  showMechForm = false,
-}: {
-  showMechForm?: boolean;
-}) => (
+export const Footer = ({ showMechForm = false }: { showMechForm?: boolean }) => (
   <div className="mt-20 relative bg-footer-gradient-bg  sm:px-6 px-2 bg-top bg-cover">
     {showMechForm ? (
       <section className="py-24">
@@ -20,7 +16,10 @@ export const Footer = ({
               ultrices elit.
             </p>
 
-            <Link href="" target="_blank">
+            <Link
+              href="https://docs.google.com/forms/d/e/1FAIpQLSfBZRHFHQBcFeMXpSxo9JDu0ReKT7CfQog6nX5R1cjuFH4j6w/viewform"
+              target="_blank"
+            >
               <Button type="primary" isLoading={false}>
                 Submit
               </Button>

@@ -14,6 +14,7 @@ async function getMechanismsList() {
 
 async function getExpertsList() {
   const data = await getExperts();
+  console.log({ data });
   return data;
 }
 
@@ -55,7 +56,10 @@ export default async function Home() {
             />
           </section>
 
-          <section className="w-fit mx-auto -mt-[10rem] relative z-10 px-2">
+          <section
+            className="w-fit mx-auto -mt-[10rem] relative z-10 px-2"
+            id="experts"
+          >
             <h2 className="font-extrabold text-3xl text-blue-600 mb-6">
               Experts
             </h2>
@@ -68,7 +72,7 @@ export default async function Home() {
             )}
           </section>
         </div>
-        <section className="w-fit mx-auto px-2">
+        <section className="w-fit mx-auto px-2" id="becomeExpert">
           <div className="flex items-center gap-6 sm:flex-row flex-col-reverse">
             <div>
               <h2 className="font-extrabold text-3xl text-blue-600 mb-6">
@@ -138,6 +142,7 @@ export default async function Home() {
                   title={entry.title}
                   subtitle="Start date: 11/11/2024"
                   buttonTitle="Apply to cohort"
+                  btnTo={entry.applyUrl}
                   imgBg={entry.background_color}
                   imgSrc={`${process.env.NEXT_PUBLIC_CLOUDINARY_BASE_URL}/${entry.background_img}`}
                   to={`/courses/${entry.slug}`}

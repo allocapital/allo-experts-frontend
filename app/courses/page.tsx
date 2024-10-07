@@ -70,6 +70,7 @@ export default async function CoursesPage() {
                 buttonTitle="Learn more"
                 imgSrc={`${process.env.NEXT_PUBLIC_CLOUDINARY_BASE_URL}/${entry.background_img}`}
                 imgBg={entry.background_color}
+                btnTo={entry.applyUrl}
               />
             ))}
           </div>
