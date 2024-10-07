@@ -1,3 +1,4 @@
+import { Button } from "@/app/components/button";
 import { Footer } from "@/app/components/footer";
 import { getCourseBySlug, getCourses } from "@/lib/api";
 import { Metadata, ResolvingMetadata } from "next";
@@ -18,7 +19,9 @@ export async function generateMetadata(
   parent: ResolvingMetadata
 ): Promise<Metadata> {
   const course = await getCourse(params);
-  const ogTitle = course ? `${course.title} | Learning Cohort` : `Learning Cohorts`;
+  const ogTitle = course
+    ? `${course.title} | Learning Cohort`
+    : `Learning Cohorts`;
   const ogDescription = "";
 
   return {
@@ -74,9 +77,19 @@ export default async function CoursePage({
                     </Link>
                   </div>
 
-                  <h1 className="font-bold text-3xl sm:text-6xl max-w-[11ch] !leading-[120%]">
-                    {course.title}
-                  </h1>
+                  <div>
+                    <h1 className="mb-2 font-bold text-3xl sm:text-6xl max-w-[11ch] !leading-[120%]">
+                      {course.title}
+                    </h1>
+
+                    {course.applyUrl ? (
+                      <Link href={course.applyUrl}>
+                        <Button type="secondary">Apply to cohort</Button>
+                      </Link>
+                    ) : (
+                      ""
+                    )}
+                  </div>
                 </div>
               </div>
 
