@@ -142,7 +142,7 @@ export default async function Home() {
                   title={entry.title}
                   subtitle="Start date: 11/11/2024"
                   buttonTitle="Apply to cohort"
-                  btnTo={entry.applyUrl}
+                  btnTo={entry.register_url}
                   imgBg={entry.background_color}
                   imgSrc={`${process.env.NEXT_PUBLIC_CLOUDINARY_BASE_URL}/${entry.background_img}`}
                   to={`/courses/${entry.slug}`}

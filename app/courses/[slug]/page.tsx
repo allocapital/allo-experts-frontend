@@ -82,8 +82,8 @@ export default async function CoursePage({
                       {course.title}
                     </h1>
 
-                    {course.applyUrl ? (
-                      <Link href={course.applyUrl}>
+                    {course.register_url ? (
+                      <Link href={course.register_url}>
                         <Button type="secondary">Apply to cohort</Button>
                       </Link>
                     ) : (

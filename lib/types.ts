@@ -15,7 +15,7 @@ export type Course = {
   background_img: string;
   background_color: string;
   startDate: string;
-  applyUrl: string;
+  register_url: string;
 };
 
 export enum EXPERT_IN {
