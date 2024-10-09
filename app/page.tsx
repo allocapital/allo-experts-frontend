@@ -38,9 +38,9 @@ export default async function Home() {
             <div className="px-4 ">
               <div className="sm:pt-44 pt-32 pb-56 sm:pl-16">
                 <h1 className="font-extrabold sm:text-4xl text-2xl md:text-5xl !leading-[120%] max-w-[22ch] mb-10">
-                  Become an expert in onchain capital allocation.{" "}
+                  Allo.expert{" "}
                   <span className="text-blue-600">
-                    Hire experts in onchain capital allocation.
+                    Learn about onchain capital allocation.
                   </span>
                 </h1>
                 <HeroActions />
@@ -79,10 +79,7 @@ export default async function Home() {
                 Become an expert
               </h2>
               <p className="max-w-md mb-12">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut
-                mattis nisi sit amet sodales bibendum. Cras dictum vulputate
-                odio tincidunt tincidunt. Donec non eleifend lacus. Vivamus
-                vitae ultrices elit.
+                This book explores these possibilities within the onchain capital allocation design space, offering a comprehensive guide to the emerging innovations in capital allocation.
               </p>
               <div className="flex gap-2 items-center sm:flex-row flex-col">
                 <Link
