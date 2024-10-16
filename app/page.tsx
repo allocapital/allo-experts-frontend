@@ -137,8 +137,8 @@ export default async function Home() {
                 <ItemCard
                   key={entry.slug}
                   title={entry.title}
-                  subtitle="Start date: 11/11/2024"
-                  buttonTitle="Apply to cohort"
+                  subtitle=""
+                  buttonTitle="View"
                   btnTo={entry.register_url}
                   imgBg={entry.background_color}
                   imgSrc={`${process.env.NEXT_PUBLIC_CLOUDINARY_BASE_URL}/${entry.background_img}`}
