@@ -14,10 +14,7 @@ export const Footer = ({
           <h2 className="font-bold text-3xl mb-6">Submit a new mechanism</h2>
           <div className="flex sm:items-center gap-6 sm:flex-row flex-col">
             <p className="max-w-xl">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut mattis
-              nisi sit amet sodales bibendum. Cras dictum vulputate odio
-              tincidunt tincidunt. Donec non eleifend lacus. Vivamus vitae
-              ultrices elit.
+              Got a new capital allocation mechanism that you think is a fit for this site?  Submit it here.
             </p>
 
             <Link

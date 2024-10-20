@@ -98,7 +98,7 @@ export default async function CoursePage({
                           href={course.register_url}
                           className="z-10 relative"
                         >
-                          <Button type="secondary">Apply to cohort</Button>
+                          <Button type="secondary">View</Button>
                         </Link>
                       ) : (
                         ""
