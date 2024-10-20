@@ -21,31 +21,37 @@ export default function ItemCard({
 }) {
   return (
     <div>
-      <div className="flex flex-col gap-4">
-        <Link href={to}>
-          <Image
-            src={imgSrc}
-            alt=""
-            className={`bg-[${imgBg}] sm:w-[250px] sm:h-[250px] aspect-square`}
-            width={250}
-            height={250}
-          />
-        </Link>
-        <div>
+      <div className="flex flex-colh-full justify-between">
+        <div className="flex flex-col gap-4">
           <Link href={to}>
-            <h3 className="font-bold text-xl sm:text-2xl mb-1 max-w-[250px]">
+            <Image
+              src={imgSrc}
+              alt=""
+              className={`bg-[${imgBg}] sm:w-[250px] sm:h-[250px] aspect-square`}
+              width={250}
+              height={250}
+            />
+          </Link>
+
+          <Link href={to}>
+            <h3 className="font-bold text-xl sm:text-[22px] mb-1 max-w-[250px]">
               {title}
             </h3>
           </Link>
+        </div>
+        <div>
           {!!subtitle ? (
             <p className="sm:text-base text-sm line-clamp-2">{subtitle}</p>
           ) : (
             ""
           )}
+
+          <div className="mt-4">
+            <Link href={btnTo ?? to}>
+              <Button type="secondary">{buttonTitle}</Button>
+            </Link>
+          </div>
         </div>
-        <Link href={btnTo ?? to}>
-          <Button type="secondary">{buttonTitle}</Button>
-        </Link>
       </div>
     </div>
   );
