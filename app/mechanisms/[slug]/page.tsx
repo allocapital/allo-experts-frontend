@@ -79,7 +79,7 @@ export default async function MechanismPage({
                       />
                     </Link>
                   </div>
-                  <h1 className="font-bold text-3xl sm:text-6xl max-w-[11ch] !leading-[120%]">
+                  <h1 className="font-bold text-3xl sm:text-6xl max-w-[11ch] !leading-[120%] z-10 relative">
                     {mechanism.title}
                   </h1>
                 </div>

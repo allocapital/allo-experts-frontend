@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { DM_Mono, DM_Sans } from "next/font/google";
 import "./globals.css";
 import Header from "./components/header";
+import GoogleAnalytics from "./components/google-analytics";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://allo.expert"),
@@ -36,6 +37,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <GoogleAnalytics />
       <body className={` ${mono.variable} ${sans.variable} font-sans`}>
         <Header />
         {children}

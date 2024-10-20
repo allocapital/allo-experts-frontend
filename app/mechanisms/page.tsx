@@ -61,7 +61,7 @@ export default async function MechanismsPage() {
         </section>
 
         <section className="px-4 mx-auto">
-          <div className="grid sm:grid-cols-3 grid-cols-2 w-fit mx-auto sm:gap-8 gap-2 gap-y-16">
+          <div className="grid md:grid-cols-3 grid-cols-2 w-fit mx-auto sm:gap-8 gap-2 gap-y-16">
             {data.map((entry) => (
               <ItemCard
                 to={`/mechanisms/${entry.slug}`}

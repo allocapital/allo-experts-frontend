@@ -87,7 +87,7 @@ export default async function ExpertPage({
                       />
                     </div>
                     <div className="">
-                      <h1 className="font-bold text-3xl sm:text-6xl max-w-[11ch] !leading-[120%] mb-4">
+                      <h1 className="font-bold text-3xl sm:text-6xl max-w-[11ch] !leading-[120%] mb-4 z-10 relative">
                         <span className="sm:flex hidden flex-col gap-0.5">
                           {expert.name.split(" ").map((entry, index) => (
                             <span key={index}>{entry}</span>

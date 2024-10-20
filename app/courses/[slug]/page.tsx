@@ -63,7 +63,7 @@ export default async function CoursePage({
           <main className="bg-white flex flex-col gap-8">
             <section className={`relative sm:min-h-[250px] px-4 bg-[]`}>
               <div className="pb-12 lg:pt-12 pt-5">
-                <div className="max-w-2xl mx-auto flex items-center gap-2">
+                <div className="max-w-3xl mx-auto flex items-center gap-2">
                   <div className="mb-8 lg:hidden">
                     <Link href="/courses" className="">
                       <Image
@@ -77,18 +77,33 @@ export default async function CoursePage({
                     </Link>
                   </div>
 
-                  <div>
-                    <h1 className="mb-2 font-bold text-3xl sm:text-6xl max-w-[11ch] !leading-[120%]">
-                      {course.title}
-                    </h1>
+                  <div className="flex items-center lg:gap-16 gap-10 flex-wrap justify-center w-full">
+                    <div className="">
+                      <Image
+                        alt=""
+                        className="sm:max-w-none max-w-[150px] h-auto rounded-[32px] border-2 border-green-700 sm:w-[250px] sm:h-[250px] aspect-square"
+                        src={`${process.env.NEXT_PUBLIC_CLOUDINARY_BASE_URL}/${course.background_img}`}
+                        aria-label="hidden"
+                        width={250}
+                        height={250}
+                      />
+                    </div>
+                    <div>
+                      <h1 className="mb-2 font-bold text-3xl sm:text-5xl max-w-[11ch] !leading-[120%] z-10 relative">
+                        {course.title}
+                      </h1>
 
-                    {course.register_url ? (
-                      <Link href={course.register_url}>
-                        <Button type="secondary">View</Button>
-                      </Link>
-                    ) : (
-                      ""
-                    )}
+                      {course.register_url ? (
+                        <Link
+                          href={course.register_url}
+                          className="z-10 relative"
+                        >
+                          <Button type="secondary">View</Button>
+                        </Link>
+                      ) : (
+                        ""
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -105,20 +120,9 @@ export default async function CoursePage({
                   />
                 </Link>
               </div>
-
-              <div className="absolute right-4 sm:right-24 bottom-1/2 translate-y-1/2 overflow-hidden">
-                <Image
-                  className="sm:max-w-none max-w-[150px] h-auto"
-                  src={`${process.env.NEXT_PUBLIC_CLOUDINARY_BASE_URL}/${course.background_img}`}
-                  alt=""
-                  width={250}
-                  height={250}
-                  aria-label="hidden"
-                />
-              </div>
             </section>
 
-            <section className="px-4 max-w-2xl mx-auto pt-8 border-t border-gray-900 w-full">
+            <section className="px-4 max-w-3xl mx-auto pt-8 border-t border-gray-900 w-full">
               <div dangerouslySetInnerHTML={{ __html: course.description }} />
             </section>
 
