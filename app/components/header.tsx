@@ -18,7 +18,7 @@ export default function Header() {
             alt="Allo logo"
             width={74}
             height={20}
-            className="sm:max-w-none max-h-[15px] w-auto"
+            className="sm:max-h-[none] max-h-[15px] sm:w-[74px] w-auto"
           />
         </Link>
         <div className="sm:hidden">
@@ -71,7 +71,9 @@ export default function Header() {
       </div>
 
       <Link href="https://t.me/+eY1-8OcToHI3ZWJh" target="_blank">
-        <Button type="tertiary">Join Telegram</Button>
+        <Button type="tertiary" className="sm:text-base text-sm sm:px-5 px-2">
+          Join Telegram
+        </Button>
       </Link>
     </header>
   );
