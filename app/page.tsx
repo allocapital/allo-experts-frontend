@@ -60,14 +60,29 @@ export default async function Home() {
             className="w-fit mx-auto -mt-[10rem] relative z-10 px-2"
             id="experts"
           >
-            <h2 className="font-extrabold text-3xl text-blue-600 mb-6">
-              Experts
-            </h2>
+            <div className="flex items-center justify-between gap-4 flex-wrap mb-8">
+              <h2 className="font-extrabold text-3xl">Experts</h2>
+              <Link href="/experts" className="self-end ml-auto">
+                <Button type="primary" isLoading={false}>
+                  View all
+                </Button>
+              </Link>
+            </div>
+
             {!!experts?.length && (
-              <div className="grid sm:grid-cols-3 grid-cols-2 w-fit mx-auto sm:gap-8 gap-2 gap-y-12">
-                {experts.map((entry) => (
-                  <ExpertCard key={entry.id} expert={entry} />
-                ))}
+              <div>
+                <div className="grid sm:grid-cols-3 grid-cols-2 w-fit mx-auto sm:gap-8 gap-2 gap-y-12">
+                  {experts.slice(0, 6).map((entry) => (
+                    <ExpertCard key={entry.id} expert={entry} />
+                  ))}
+                </div>
+                {!!experts?.length && experts.length > 6 && (
+                  <div className="ml-auto w-fit mt-4">
+                    <Link href="/experts" className="link text-lg">
+                      View more →
+                    </Link>
+                  </div>
+                )}
               </div>
             )}
           </section>
@@ -133,22 +148,30 @@ export default async function Home() {
               </Button>
             </Link>
           </div>
-
-          <div className="grid sm:grid-cols-3 grid-cols-1 w-fit mx-auto gap-8">
-            {courses.map((entry) => {
-              return (
-                <ItemCard
-                  key={entry.slug}
-                  title={entry.title}
-                  subtitle="Start date: 11/11/2024"
-                  buttonTitle="Apply to cohort"
-                  btnTo={entry.register_url}
-                  imgBg={entry.background_color}
-                  imgSrc={`${process.env.NEXT_PUBLIC_CLOUDINARY_BASE_URL}/${entry.background_img}`}
-                  to={`/courses/${entry.slug}`}
-                />
-              );
-            })}
+          <div>
+            <div className="grid sm:grid-cols-3 grid-cols-1 w-fit mx-auto gap-8">
+              {courses.slice(0, 6).map((entry) => {
+                return (
+                  <ItemCard
+                    key={entry.slug}
+                    title={entry.title}
+                    subtitle="Start date: 11/11/2024"
+                    buttonTitle="Apply to cohort"
+                    btnTo={entry.register_url}
+                    imgBg={entry.background_color}
+                    imgSrc={`${process.env.NEXT_PUBLIC_CLOUDINARY_BASE_URL}/${entry.background_img}`}
+                    to={`/courses/${entry.slug}`}
+                  />
+                );
+              })}
+            </div>
+            {!!courses?.length && courses.length > 6 && (
+              <div className="ml-auto w-fit mt-4">
+                <Link href="/courses" className="link text-lg">
+                  View more →
+                </Link>
+              </div>
+            )}
           </div>
         </section>
 
@@ -162,19 +185,28 @@ export default async function Home() {
             </Link>
           </div>
 
-          <div className="grid sm:grid-cols-3 grid-cols-2 w-fit mx-auto sm:gap-8 gap-2 gap-y-12">
-            {mechanisms.map((entry) => {
-              return (
-                <ItemCard
-                  key={entry.slug}
-                  title={entry.title}
-                  buttonTitle="Learn more"
-                  imgBg={entry.background_color}
-                  imgSrc={`${process.env.NEXT_PUBLIC_CLOUDINARY_BASE_URL}/${entry.background_img}`}
-                  to={`/mechanisms/${entry.slug}`}
-                />
-              );
-            })}
+          <div>
+            <div className="grid sm:grid-cols-3 grid-cols-2 w-fit mx-auto sm:gap-8 gap-2 gap-y-12">
+              {mechanisms.slice(0, 6).map((entry) => {
+                return (
+                  <ItemCard
+                    key={entry.slug}
+                    title={entry.title}
+                    buttonTitle="Learn more"
+                    imgBg={entry.background_color}
+                    imgSrc={`${process.env.NEXT_PUBLIC_CLOUDINARY_BASE_URL}/${entry.background_img}`}
+                    to={`/mechanisms/${entry.slug}`}
+                  />
+                );
+              })}
+            </div>
+            {!!mechanisms?.length && mechanisms.length > 6 && (
+              <div className="ml-auto w-fit mt-4">
+                <Link href="/mechanisms" className="link text-lg">
+                  View more →
+                </Link>
+              </div>
+            )}
           </div>
         </section>
 
