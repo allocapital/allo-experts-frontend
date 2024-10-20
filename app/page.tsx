@@ -6,6 +6,7 @@ import { Footer } from "./components/footer";
 import ItemCard from "./components/item-card";
 import { getCourses, getExperts, getMechanisms } from "@/lib/api";
 import ExpertCard from "./components/expert-card";
+import { formatDate } from "@/lib/utils";
 
 async function getMechanismsList() {
   const data = await getMechanisms();
@@ -117,7 +118,6 @@ export default async function Home() {
                 </Link>
                 <Link
                   href={"https://allobook.gitcoin.co/"}
-                  target="_blank"
                   className="sm:w-auto w-full"
                 >
                   <Button
@@ -149,13 +149,17 @@ export default async function Home() {
             </Link>
           </div>
           <div>
-            <div className="grid sm:grid-cols-3 grid-cols-1 w-fit mx-auto gap-8">
+            <div className="grid md:grid-cols-3 grid-cols-2 w-fit mx-auto gap-8">
               {courses.slice(0, 6).map((entry) => {
                 return (
                   <ItemCard
                     key={entry.slug}
                     title={entry.title}
-                    subtitle="Start date: 11/11/2024"
+                    subtitle={
+                      entry.starts_at
+                        ? `Start date: ${formatDate(entry.starts_at)}`
+                        : undefined
+                    }
                     buttonTitle="Apply to cohort"
                     btnTo={entry.register_url}
                     imgBg={entry.background_color}
@@ -186,7 +190,7 @@ export default async function Home() {
           </div>
 
           <div>
-            <div className="grid sm:grid-cols-3 grid-cols-2 w-fit mx-auto sm:gap-8 gap-2 gap-y-12">
+            <div className="grid md:grid-cols-3 grid-cols-2 w-fit mx-auto sm:gap-8 gap-2 gap-y-12">
               {mechanisms.slice(0, 6).map((entry) => {
                 return (
                   <ItemCard

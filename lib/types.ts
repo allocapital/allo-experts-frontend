@@ -14,7 +14,7 @@ export type Course = {
   slug: string;
   background_img: string;
   background_color: string;
-  startDate: string;
+  starts_at?: string;
   register_url: string;
 };
 
