@@ -5,7 +5,6 @@ export const getMechanisms = async () => {
   try {
     const resp = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/mechanisms`,
-      { next: { revalidate: 1 } }
     );
     if (!resp.ok) throw new Error(resp.statusText);
     data = await resp.json();
@@ -19,8 +18,7 @@ export const getMechanismBySlug = async (slug: string) => {
   let data: Mechanism | undefined;
   try {
     const resp = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/mechanisms/${slug}`,
-      { next: { revalidate: 0 } }
+      `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/mechanisms/${slug}`
     );
     if (!resp.ok) throw new Error(resp.statusText);
     data = await resp.json();
@@ -65,8 +63,7 @@ export const getCourses = async () => {
 
   try {
     const resp = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/courses`,
-      { next: { revalidate: 0 } }
+      `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/courses`
     );
     if (!resp.ok) throw new Error(resp.statusText);
     data = await resp.json();
