@@ -21,7 +21,7 @@ export default function ItemCard({
 }) {
   return (
     <div>
-      <div className="flex flex-colh-full justify-between">
+      <div className="flex flex-col h-full justify-between">
         <div className="flex flex-col gap-4">
           <Link href={to}>
             <Image
@@ -34,7 +34,7 @@ export default function ItemCard({
           </Link>
 
           <Link href={to}>
-            <h3 className="font-bold text-xl sm:text-[22px] mb-1 max-w-[250px]">
+            <h3 className="font-bold text-md sm:text-xl md:text-[22px] mb-1 max-w-[250px]">
               {title}
             </h3>
           </Link>
@@ -48,7 +48,9 @@ export default function ItemCard({
 
           <div className="mt-4">
             <Link href={btnTo ?? to}>
-              <Button type="secondary">{buttonTitle}</Button>
+              <Button type="secondary" className="sm:text-base text-sm sm:px-5 px-1.5">
+                {buttonTitle}
+              </Button>
             </Link>
           </div>
         </div>
