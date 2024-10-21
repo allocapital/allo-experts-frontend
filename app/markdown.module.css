@@ -1,0 +1,125 @@
+/* markdown.module.css */
+
+/* General styling */
+.container {
+  line-height: 1.6; /* Default line height for readability */
+  margin: 0;
+  padding: 0;
+}
+
+/* Paragraphs */
+.container p {
+  margin: 1rem 0; /* Space between paragraphs */
+}
+
+/* Headings with different font sizes */
+.container h1 {
+  font-size: 2.5rem; /* Adjust heading size */
+  margin: 1.5rem 0; /* Space around h1 */
+  font-weight: bold; /* Make h1 bold */
+}
+
+.container h2 {
+  font-size: 2rem; /* Adjust heading size */
+  margin: 1.5rem 0; /* Space around h2 */
+  font-weight: bold; /* Make h2 bold */
+}
+
+.container h3 {
+  font-size: 1.75rem; /* Adjust heading size */
+  margin: 1.5rem 0; /* Space around h3 */
+  font-weight: bold; /* Make h3 bold */
+}
+
+.container h4 {
+  font-size: 1.5rem; /* Adjust heading size */
+  margin: 1.5rem 0; /* Space around h4 */
+  font-weight: bold; /* Make h4 bold */
+}
+
+.container h5 {
+  font-size: 1.25rem; /* Adjust heading size */
+  margin: 1.5rem 0; /* Space around h5 */
+  font-weight: bold; /* Make h5 bold */
+}
+
+.container h6 {
+  font-size: 1rem; /* Adjust heading size */
+  margin: 1.5rem 0; /* Space around h6 */
+  font-weight: bold; /* Make h6 bold */
+}
+
+/* Additional styles for links, lists, etc., prefixed with .container */
+.container a {
+  color: #007bff; /* Link color */
+  text-decoration: none; /* Remove underline */
+}
+
+.container a:hover {
+  text-decoration: underline; /* Underline on hover */
+}
+
+.container ul, .container ol {
+  margin-left: 1.5rem; /* Indent lists */
+  margin-bottom: 1rem; /* Space below lists */
+}
+
+.container li {
+  margin: 0.5rem 0; /* Space between list items */
+}
+
+/* Blockquotes */
+.container blockquote {
+  border-left: 4px solid #007bff; /* Blue left border */
+  padding-left: 1rem; /* Space inside blockquote */
+  margin: 1rem 0; /* Space around blockquote */
+  color: #555; /* Text color for blockquote */
+  font-style: italic; /* Italicize text */
+}
+
+/* Code */
+.container pre {
+  background-color: #f0f0f0; /* Light gray background for code blocks */
+  padding: 1rem; /* Padding around code */
+  border-radius: 5px; /* Rounded corners */
+  overflow-x: auto; /* Horizontal scroll for long code */
+  margin: 1rem 0; /* Space around code blocks */
+}
+
+.container code {
+  background-color: #f0f0f0; /* Light gray background for inline code */
+  padding: 2px 4px; /* Padding around inline code */
+  border-radius: 3px; /* Rounded corners */
+}
+
+/* Images */
+.container img {
+  max-width: 100%; /* Responsive images */
+  height: auto; /* Maintain aspect ratio */
+  margin: 1rem 0; /* Space around images */
+}
+
+/* Tables */
+.container table {
+  width: 100%; /* Full width tables */
+  border-collapse: collapse; /* Collapse borders */
+  margin: 1rem 0; /* Space around tables */
+}
+
+.container th, .container td {
+  border: 1px solid #ddd; /* Border for table cells */
+  padding: 8px; /* Padding inside cells */
+  text-align: left; /* Left-align text */
+}
+
+.container th {
+  background-color: #f2f2f2; /* Light gray background for table headers */
+}
+
+/* Horizontal rules */
+.container hr {
+  border: none; /* Remove default border */
+  height: 1px; /* Set height */
+  background-color: #ddd; /* Light gray line */
+  margin: 1.5rem 0; /* Space around horizontal rules */
+}

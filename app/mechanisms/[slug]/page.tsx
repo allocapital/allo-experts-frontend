@@ -1,11 +1,9 @@
 import { Footer } from "@/app/components/footer";
 import { getMechanismBySlug, getMechanisms } from "@/lib/api";
-import { Mechanism } from "@/lib/types";
 import { Metadata, ResolvingMetadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { remark } from "remark";
-import html from "remark-html";
+import RenderMarkdown from "@/app/components/render-markdown";
 
 export async function generateStaticParams() {
   const data = await getMechanisms();
@@ -16,12 +14,6 @@ export async function generateStaticParams() {
 
 async function getMechanism(params: { slug: string }) {
   const data = await getMechanismBySlug(params.slug);
-
-  if (data?.description) {
-    const processedContent = await remark().use(html).process(data.description);
-    const contentHtml = processedContent.toString();
-    data.description = contentHtml;
-  }
 
   return data;
 }
@@ -111,9 +103,7 @@ export default async function MechanismPage({
             </section>
 
             <section className="px-4 max-w-2xl mx-auto">
-              <div
-                dangerouslySetInnerHTML={{ __html: mechanism.description }}
-              />
+              <RenderMarkdown markdown={mechanism.description} />
             </section>
 
             <Footer showMechForm={true} />

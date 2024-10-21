@@ -1,11 +1,10 @@
 import ContactButton from "@/app/components/contact-button";
 import { Footer } from "@/app/components/footer";
+import RenderMarkdown from "@/app/components/render-markdown";
 import { getExpertBySlug, getExperts } from "@/lib/api";
 import { Metadata, ResolvingMetadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { remark } from "remark";
-import html from "remark-html";
 
 export async function generateStaticParams() {
   const data = await getExperts();
@@ -19,9 +18,7 @@ export async function generateMetadata(
   parent: ResolvingMetadata
 ): Promise<Metadata> {
   const expert = await getExpert(params);
-  const ogTitle = expert
-    ? `${expert.name} | Allo Expert`
-    : `Allo Experts`;
+  const ogTitle = expert ? `${expert.name} | Allo Expert` : `Allo Experts`;
   const ogDescription = "";
 
   return {
@@ -41,11 +38,6 @@ export async function generateMetadata(
 
 async function getExpert(params: { slug: string }) {
   const data = await getExpertBySlug(params.slug);
-  if (data?.description) {
-    const processedContent = await remark().use(html).process(data.description);
-    const contentHtml = processedContent.toString();
-    data.description = contentHtml;
-  }
   return data;
 }
 
@@ -116,7 +108,7 @@ export default async function ExpertPage({
             </section>
 
             <section className="px-4 max-w-2xl mx-auto pt-8 border-t border-gray-900 w-full">
-              <div dangerouslySetInnerHTML={{ __html: expert.description }} />
+              <RenderMarkdown markdown={expert.description} />
             </section>
 
             <Footer />

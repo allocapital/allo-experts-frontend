@@ -1,11 +1,10 @@
 import { Button } from "@/app/components/button";
 import { Footer } from "@/app/components/footer";
+import RenderMarkdown from "@/app/components/render-markdown";
 import { getCourseBySlug, getCourses } from "@/lib/api";
 import { Metadata, ResolvingMetadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { remark } from "remark";
-import html from "remark-html";
 
 export async function generateStaticParams() {
   const data = await getCourses();
@@ -41,12 +40,6 @@ export async function generateMetadata(
 
 async function getCourse(params: { slug: string }) {
   const data = await getCourseBySlug(params.slug);
-  if (data?.description) {
-    const processedContent = await remark().use(html).process(data.description);
-    if (!processedContent) return;
-    const contentHtml = processedContent.toString();
-    data.description = contentHtml;
-  }
   return data;
 }
 
@@ -123,7 +116,7 @@ export default async function CoursePage({
             </section>
 
             <section className="px-4 max-w-3xl mx-auto pt-8 border-t border-gray-900 w-full">
-              <div dangerouslySetInnerHTML={{ __html: course.description }} />
+              <RenderMarkdown markdown={course.description} />
             </section>
 
             <Footer />
