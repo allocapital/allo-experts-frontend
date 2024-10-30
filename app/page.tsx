@@ -4,7 +4,7 @@ import HeroActions from "./components/hero-actions";
 import Link from "next/link";
 import { Footer } from "./components/footer";
 import ItemCard from "./components/item-card";
-import { getCourses, getExperts, getMechanisms } from "@/lib/api";
+import { getBuilds, getCourses, getExperts, getMechanisms } from "@/lib/api";
 import ExpertCard from "./components/expert-card";
 import { formatDate } from "@/lib/utils";
 
@@ -24,11 +24,17 @@ async function getCoursesList() {
   return data;
 }
 
+async function getBuildsList() {
+  const data = await getBuilds();
+  return data;
+}
+
 export default async function Home() {
-  const [mechanisms, experts, courses] = await Promise.all([
+  const [mechanisms, experts, courses, builds] = await Promise.all([
     getMechanismsList(),
     getExpertsList(),
     getCoursesList(),
+    getBuildsList(),
   ]);
 
   return (
@@ -57,7 +63,8 @@ export default async function Home() {
             />
           </section>
 
-          <section
+          {/* top section */}
+          {/* <section
             className="w-fit mx-auto -mt-[10rem] relative z-10 px-2"
             id="experts"
           >
@@ -69,24 +76,7 @@ export default async function Home() {
                 </Button>
               </Link>
             </div>
-
-            {!!experts?.length && (
-              <div>
-                <div className="grid sm:grid-cols-3 grid-cols-2 w-fit mx-auto sm:gap-8 gap-2 gap-y-12">
-                  {experts.slice(0, 6).map((entry) => (
-                    <ExpertCard key={entry.id} expert={entry} />
-                  ))}
-                </div>
-                {!!experts?.length && experts.length > 6 && (
-                  <div className="ml-auto w-fit mt-4">
-                    <Link href="/experts" className="link text-lg">
-                      View more →
-                    </Link>
-                  </div>
-                )}
-              </div>
-            )}
-          </section>
+          </section> */}
         </div>
         <section className="w-fit mx-auto px-2" id="becomeExpert">
           <div className="flex items-center gap-6 sm:flex-row flex-col-reverse">
@@ -95,7 +85,9 @@ export default async function Home() {
                 Become an expert
               </h2>
               <p className="max-w-md mb-12">
-                This book explores these possibilities within the onchain capital allocation design space, offering a comprehensive guide to the emerging innovations in capital allocation.
+                This book explores these possibilities within the onchain
+                capital allocation design space, offering a comprehensive guide
+                to the emerging innovations in capital allocation.
               </p>
               <div className="flex gap-2 items-center sm:flex-row flex-col">
                 <Link
@@ -209,6 +201,70 @@ export default async function Home() {
               </div>
             )}
           </div>
+        </section>
+
+        <section className="w-fit mx-auto px-2">
+          <div className="flex items-center justify-between gap-4 flex-wrap mb-8">
+            <h2 className="font-extrabold text-3xl">Build Ideas</h2>
+            <Link href="/builds" className="ml-auto">
+              <Button type="primary" isLoading={false}>
+                View all
+              </Button>
+            </Link>
+          </div>
+
+          <div>
+            <div className="grid md:grid-cols-3 grid-cols-2 w-fit mx-auto sm:gap-8 gap-2 gap-y-12">
+              {builds.slice(0, 4).map((entry) => {
+                return (
+                  <ItemCard
+                    key={entry.slug}
+                    title={entry.title}
+                    subtitle={`${entry.type} / ${entry.status}`}
+                    buttonTitle="Learn more"
+                    imgBg={entry.background_color}
+                    imgSrc={`${process.env.NEXT_PUBLIC_CLOUDINARY_BASE_URL}/${entry.background_img}`}
+                    to={`/builds/${entry.slug}`}
+                  />
+                );
+              })}
+            </div>
+            {!!builds?.length && builds.length > 6 && (
+              <div className="ml-auto w-fit mt-4">
+                <Link href="/builds" className="link text-lg">
+                  View more →
+                </Link>
+              </div>
+            )}
+          </div>
+        </section>
+
+        <section className="w-fit mx-auto px-2" id="experts">
+          <div className="flex items-center justify-between gap-4 flex-wrap mb-8">
+            <h2 className="font-extrabold text-3xl">Experts</h2>
+            <Link href="/experts" className="self-end ml-auto">
+              <Button type="primary" isLoading={false}>
+                View all
+              </Button>
+            </Link>
+          </div>
+
+          {!!experts?.length && (
+            <div>
+              <div className="grid sm:grid-cols-3 grid-cols-2 w-fit mx-auto sm:gap-8 gap-2 gap-y-12">
+                {experts.slice(0, 6).map((entry) => (
+                  <ExpertCard key={entry.id} expert={entry} />
+                ))}
+              </div>
+              {!!experts?.length && experts.length > 6 && (
+                <div className="ml-auto w-fit mt-4">
+                  <Link href="/experts" className="link text-lg">
+                    View more →
+                  </Link>
+                </div>
+              )}
+            </div>
+          )}
         </section>
 
         <Footer showMechForm={true} />

@@ -36,3 +36,15 @@ export type Expert = {
   updated_at: string;
   avatar: string;
 };
+
+export type Build = {
+  id: number;
+  title: string;
+  description: string;
+  slug: string;
+  background_img: string;
+  background_color: string;
+  type: string;
+  status: string;
+  metadata: Record<string, unknown>;
+};
