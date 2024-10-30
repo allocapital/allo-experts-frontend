@@ -10,7 +10,7 @@ import { Button } from "./button";
 
 export default function Header() {
   return (
-    <header className="sm:px-6 px-2 bg-black flex items-center justify-between sm:gap-8 gap-4 py-2">
+    <header className="sm:px-6 px-2 bg-black flex items-center justify-between sm:gap-8 gap-4 py-2 z-10 relative">
       <div className="flex items-center sm:gap-16 gap-4">
         <Link href="/">
           <Image
