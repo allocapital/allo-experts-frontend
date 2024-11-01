@@ -215,7 +215,7 @@ export default async function Home() {
 
           <div>
             <div className="grid md:grid-cols-3 grid-cols-2 w-fit mx-auto sm:gap-8 gap-2 gap-y-12">
-              {builds.slice(0, 4).map((entry) => {
+              {builds.slice(0, 6).map((entry) => {
                 return (
                   <ItemCard
                     key={entry.slug}

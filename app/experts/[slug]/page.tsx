@@ -1,6 +1,9 @@
+import { BuildsCardsList } from "@/app/builds/page";
 import ContactButton from "@/app/components/contact-button";
 import { Footer } from "@/app/components/footer";
 import RenderMarkdown from "@/app/components/render-markdown";
+import { CoursesCardsList } from "@/app/courses/page";
+import { MechanismsCardsList } from "@/app/mechanisms/page";
 import { getExpertBySlug, getExperts } from "@/lib/api";
 import { Metadata, ResolvingMetadata } from "next";
 import Image from "next/image";
@@ -111,6 +114,32 @@ export default async function ExpertPage({
               <RenderMarkdown markdown={expert.description} />
             </section>
 
+            {expert.related_builds?.length ? (
+              <section className="mt-6 w-fit mx-auto">
+                <h2 className="font-extrabold text-2xl mb-4">Related builds</h2>
+                <BuildsCardsList data={expert.related_builds} />
+              </section>
+            ) : (
+              ""
+            )}
+
+            {expert.related_mechanisms?.length ? (
+              <section className="mt-6 w-fit mx-auto">
+                <h2 className="font-extrabold text-2xl mb-4">Related mechanisms</h2>
+                <MechanismsCardsList data={expert.related_mechanisms} />
+              </section>
+            ) : (
+              ""
+            )}
+
+            {expert.related_courses?.length ? (
+              <section className="mt-6 w-fit mx-auto">
+                <h2 className="font-extrabold text-2xl mb-4">Related courses</h2>
+                <CoursesCardsList data={expert.related_courses} />
+              </section>
+            ) : (
+              ""
+            )}
             <Footer />
           </main>
         </div>

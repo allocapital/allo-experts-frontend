@@ -1,6 +1,9 @@
+import { BuildsCardsList } from "@/app/builds/page";
 import { Button } from "@/app/components/button";
 import { Footer } from "@/app/components/footer";
 import RenderMarkdown from "@/app/components/render-markdown";
+import { ExpertsCardsList } from "@/app/experts/page";
+import { MechanismsCardsList } from "@/app/mechanisms/page";
 import { getCourseBySlug, getCourses } from "@/lib/api";
 import { Metadata, ResolvingMetadata } from "next";
 import Image from "next/image";
@@ -118,6 +121,37 @@ export default async function CoursePage({
             <section className="px-4 max-w-3xl mx-auto pt-8 border-t border-gray-900 w-full">
               <RenderMarkdown markdown={course.description} />
             </section>
+
+            {course.related_builds?.length ? (
+              <section className="mt-6 w-fit mx-auto">
+                <h2 className="font-extrabold text-2xl mb-4">Related builds</h2>
+                <BuildsCardsList data={course.related_builds} />
+              </section>
+            ) : (
+              ""
+            )}
+
+            {course.related_experts?.length ? (
+              <section className="mt-6 w-fit mx-auto">
+                <h2 className="font-extrabold text-2xl mb-4">
+                  Related experts
+                </h2>
+                <ExpertsCardsList data={course.related_experts} />
+              </section>
+            ) : (
+              ""
+            )}
+
+            {course.related_mechanisms?.length ? (
+              <section className="mt-6 w-fit mx-auto">
+                <h2 className="font-extrabold text-2xl mb-4">
+                  Related mechanisms
+                </h2>
+                <MechanismsCardsList data={course.related_mechanisms} />
+              </section>
+            ) : (
+              ""
+            )}
 
             <Footer />
           </main>

@@ -16,7 +16,13 @@ export const getMechanisms = async () => {
 };
 
 export const getMechanismBySlug = async (slug: string) => {
-  let data: Mechanism | undefined;
+  let data:
+    | (Mechanism & {
+        related_experts: Expert[];
+        related_builds: Build[];
+        related_courses: Course[];
+      })
+    | undefined;
   try {
     const resp = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/mechanisms/${slug}`,
@@ -48,7 +54,13 @@ export const getExperts = async () => {
 };
 
 export const getExpertBySlug = async (slug: string) => {
-  let data: Expert | undefined;
+  let data:
+    | (Expert & {
+        related_mechanisms: Mechanism[];
+        related_builds: Build[];
+        related_courses: Course[];
+      })
+    | undefined;
   try {
     const resp = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/experts/${slug}`,
@@ -80,7 +92,13 @@ export const getCourses = async () => {
 };
 
 export const getCourseBySlug = async (slug: string) => {
-  let data: Course | undefined;
+  let data:
+    | (Course & {
+        related_mechanisms: Mechanism[];
+        related_builds: Build[];
+        related_experts: Expert[];
+      })
+    | undefined;
   try {
     const resp = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/courses/${slug}`,
@@ -93,7 +111,6 @@ export const getCourseBySlug = async (slug: string) => {
   }
   return data;
 };
-
 
 export const getBuilds = async () => {
   let data: Build[] = [];
@@ -111,7 +128,13 @@ export const getBuilds = async () => {
 };
 
 export const getBuildBySlug = async (slug: string) => {
-  let data: Build | undefined;
+  let data:
+    | (Build & {
+        related_mechanisms: Mechanism[];
+        related_experts: Expert[];
+        related_courses: Course[];
+      })
+    | undefined;
   try {
     const resp = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/builds/${slug}`,
