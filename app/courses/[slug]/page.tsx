@@ -1,9 +1,9 @@
-import { BuildsCardsList } from "@/app/builds/page";
+import { BuildsCardsList } from "@/app/components/builds-cards-list";
 import { Button } from "@/app/components/button";
+import { ExpertsCardsList } from "@/app/components/experts-cards-list";
 import { Footer } from "@/app/components/footer";
+import { MechanismsCardsList } from "@/app/components/mechanisms-cards-list";
 import RenderMarkdown from "@/app/components/render-markdown";
-import { ExpertsCardsList } from "@/app/experts/page";
-import { MechanismsCardsList } from "@/app/mechanisms/page";
 import { getCourseBySlug, getCourses } from "@/lib/api";
 import { Metadata, ResolvingMetadata } from "next";
 import Image from "next/image";

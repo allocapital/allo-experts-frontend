@@ -2,25 +2,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { Footer } from "../components/footer";
 import { getExperts } from "@/lib/api";
-import ExpertCard from "../components/expert-card";
-import { Expert } from "@/lib/types";
+import { ExpertsCardsList } from "../components/experts-cards-list";
 
 async function getData() {
   const data = await getExperts();
   return data;
 }
-
-export const ExpertsCardsList = ({ data }: { data: Expert[] }) => (
-  <section className="px-4 mx-auto">
-    {!!data?.length && (
-      <div className="grid md:grid-cols-3 grid-cols-2 w-fit mx-auto sm:gap-8 gap-2 gap-y-16">
-        {data.map((entry) => (
-          <ExpertCard key={entry.id} expert={entry} />
-        ))}
-      </div>
-    )}
-  </section>
-);
 
 export default async function ExpertsPage() {
   const data = await getData();
@@ -72,7 +59,7 @@ export default async function ExpertsPage() {
           </div>
         </section>
 
-        <ExpertsCardsList data={data}/>
+        <ExpertsCardsList data={data} />
 
         <Footer />
       </main>
