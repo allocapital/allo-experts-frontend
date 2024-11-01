@@ -1,7 +1,7 @@
 import { Build } from "@/lib/types";
 import ItemCard from "./item-card";
 
-export const BuildsCardsList = ({ data }: { data: Build[] }) => (
+const BuildsCardsList = ({ data }: { data: Build[] }) => (
   <section className="px-4 mx-auto">
     <div className="grid md:grid-cols-3 grid-cols-2 w-fit mx-auto sm:gap-8 gap-2 gap-y-16">
       {data.map((entry) => (
@@ -18,3 +18,5 @@ export const BuildsCardsList = ({ data }: { data: Build[] }) => (
     </div>
   </section>
 );
+
+export default BuildsCardsList;
