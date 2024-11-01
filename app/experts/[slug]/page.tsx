@@ -1,9 +1,9 @@
-import { BuildsCardsList } from "@/app/builds/page";
+import { BuildsCardsList } from "@/app/components/builds-cards-list";
 import ContactButton from "@/app/components/contact-button";
+import { CoursesCardsList } from "@/app/components/courses-cards-list";
 import { Footer } from "@/app/components/footer";
+import { MechanismsCardsList } from "@/app/components/mechanisms-cards-list";
 import RenderMarkdown from "@/app/components/render-markdown";
-import { CoursesCardsList } from "@/app/courses/page";
-import { MechanismsCardsList } from "@/app/mechanisms/page";
 import { getExpertBySlug, getExperts } from "@/lib/api";
 import { Metadata, ResolvingMetadata } from "next";
 import Image from "next/image";
@@ -125,7 +125,9 @@ export default async function ExpertPage({
 
             {expert.related_mechanisms?.length ? (
               <section className="mt-6 w-fit mx-auto">
-                <h2 className="font-extrabold text-2xl mb-4">Related mechanisms</h2>
+                <h2 className="font-extrabold text-2xl mb-4">
+                  Related mechanisms
+                </h2>
                 <MechanismsCardsList data={expert.related_mechanisms} />
               </section>
             ) : (
@@ -134,7 +136,9 @@ export default async function ExpertPage({
 
             {expert.related_courses?.length ? (
               <section className="mt-6 w-fit mx-auto">
-                <h2 className="font-extrabold text-2xl mb-4">Related courses</h2>
+                <h2 className="font-extrabold text-2xl mb-4">
+                  Related courses
+                </h2>
                 <CoursesCardsList data={expert.related_courses} />
               </section>
             ) : (
