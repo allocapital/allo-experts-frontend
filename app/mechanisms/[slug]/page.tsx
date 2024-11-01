@@ -4,6 +4,9 @@ import { Metadata, ResolvingMetadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import RenderMarkdown from "@/app/components/render-markdown";
+import { ExpertsCardsList } from "@/app/experts/page";
+import { CoursesCardsList } from "@/app/courses/page";
+import { BuildsCardsList } from "@/app/builds/page";
 
 export async function generateStaticParams() {
   const data = await getMechanisms();
@@ -106,6 +109,36 @@ export default async function MechanismPage({
               <RenderMarkdown markdown={mechanism.description} />
             </section>
 
+            {mechanism.related_builds?.length ? (
+              <section className="mt-6 w-fit mx-auto">
+                <h2 className="font-extrabold text-2xl mb-4">Related builds</h2>
+                <BuildsCardsList data={mechanism.related_builds} />
+              </section>
+            ) : (
+              ""
+            )}
+
+            {mechanism.related_experts?.length ? (
+              <section className="mt-6 w-fit mx-auto">
+                <h2 className="font-extrabold text-2xl mb-4">
+                  Related experts
+                </h2>
+                <ExpertsCardsList data={mechanism.related_experts} />
+              </section>
+            ) : (
+              ""
+            )}
+
+            {mechanism.related_courses?.length ? (
+              <section className="mt-6 w-fit mx-auto">
+                <h2 className="font-extrabold text-2xl mb-4">
+                  Related courses
+                </h2>
+                <CoursesCardsList data={mechanism.related_courses} />
+              </section>
+            ) : (
+              ""
+            )}
             <Footer showMechForm={true} />
           </main>
         </div>

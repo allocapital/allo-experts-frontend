@@ -4,6 +4,9 @@ import { Metadata, ResolvingMetadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import RenderMarkdown from "@/app/components/render-markdown";
+import { MechanismsCardsList } from "@/app/mechanisms/page";
+import { ExpertsCardsList } from "@/app/experts/page";
+import { CoursesCardsList } from "@/app/courses/page";
 
 export async function generateStaticParams() {
   const data = await getBuilds();
@@ -23,9 +26,7 @@ export async function generateMetadata(
   parent: ResolvingMetadata
 ): Promise<Metadata> {
   const builds = await getBuild(params);
-  const ogTitle = builds
-    ? `${builds.title} | Build Ideas`
-    : `Build Ideas`;
+  const ogTitle = builds ? `${builds.title} | Build Ideas` : `Build Ideas`;
   const ogDescription = "";
 
   return {
@@ -106,11 +107,44 @@ export default async function BuildPage({
               <RenderMarkdown markdown={build.description} />
             </section>
 
+            {build.related_mechanisms?.length ? (
+              <section className="mt-6 w-fit mx-auto">
+                <h2 className="font-extrabold text-2xl mb-4">
+                  Related mechanisms
+                </h2>
+                <MechanismsCardsList data={build.related_mechanisms} />
+              </section>
+            ) : (
+              ""
+            )}
+
+            {build.related_experts?.length ? (
+              <section className="mt-6 w-fit mx-auto">
+                <h2 className="font-extrabold text-2xl mb-4">
+                  Related experts
+                </h2>
+                <ExpertsCardsList data={build.related_experts} />
+              </section>
+            ) : (
+              ""
+            )}
+
+            {build.related_courses?.length ? (
+              <section className="mt-6 w-fit mx-auto">
+                <h2 className="font-extrabold text-2xl mb-4">
+                  Related courses
+                </h2>
+                <CoursesCardsList data={build.related_courses} />
+              </section>
+            ) : (
+              ""
+            )}
+
             <Footer />
           </main>
         </div>
       ) : (
-        <div>build not found</div>
+        <div>Build not found</div>
       )}
     </>
   );
