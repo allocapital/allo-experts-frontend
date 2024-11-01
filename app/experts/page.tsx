@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Footer } from "../components/footer";
 import { getExperts } from "@/lib/api";
-import { ExpertsCardsList } from "../components/experts-cards-list";
+import  ExpertsCardsList  from "../components/experts-cards-list";
 
 async function getData() {
   const data = await getExperts();

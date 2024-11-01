@@ -1,8 +1,8 @@
-import { BuildsCardsList } from "@/app/components/builds-cards-list";
+import BuildsCardsList from "@/app/components/builds-cards-list";
 import { Button } from "@/app/components/button";
-import { ExpertsCardsList } from "@/app/components/experts-cards-list";
+import ExpertsCardsList from "@/app/components/experts-cards-list";
 import { Footer } from "@/app/components/footer";
-import { MechanismsCardsList } from "@/app/components/mechanisms-cards-list";
+import MechanismsCardsList from "@/app/components/mechanisms-cards-list";
 import RenderMarkdown from "@/app/components/render-markdown";
 import { getCourseBySlug, getCourses } from "@/lib/api";
 import { Metadata, ResolvingMetadata } from "next";

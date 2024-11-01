@@ -4,7 +4,7 @@ import ItemCard from "../components/item-card";
 import { Footer } from "../components/footer";
 import { getCourses } from "@/lib/api";
 import { Course } from "@/lib/types";
-import { CoursesCardsList } from "../components/courses-cards-list";
+import CoursesCardsList from "../components/courses-cards-list";
 
 async function getData() {
   const data = await getCourses();

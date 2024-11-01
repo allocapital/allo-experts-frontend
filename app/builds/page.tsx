@@ -1,16 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
-import ItemCard from "../components/item-card";
 import { Footer } from "../components/footer";
 import { getBuilds } from "@/lib/api";
-import { Build } from "@/lib/types";
-import { BuildsCardsList } from "../components/builds-cards-list";
+import BuildsCardsList from "../components/builds-cards-list";
 
 async function getData() {
   const data = await getBuilds();
   return data;
 }
-
 
 export default async function BuildsPage() {
   const data = await getData();

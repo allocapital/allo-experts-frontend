@@ -4,10 +4,9 @@ import { Metadata, ResolvingMetadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import RenderMarkdown from "@/app/components/render-markdown";
-import { MechanismsCardsList } from "@/app/components/mechanisms-cards-list";
-import { ExpertsCardsList } from "@/app/components/experts-cards-list";
-import { CoursesCardsList } from "@/app/components/courses-cards-list";
-
+import MechanismsCardsList from "@/app/components/mechanisms-cards-list";
+import ExpertsCardsList from "@/app/components/experts-cards-list";
+import CoursesCardsList from "@/app/components/courses-cards-list";
 
 export async function generateStaticParams() {
   const data = await getBuilds();

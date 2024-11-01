@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Footer } from "../components/footer";
 import { getMechanisms } from "@/lib/api";
-import { MechanismsCardsList } from "../components/mechanisms-cards-list";
+import MechanismsCardsList from "../components/mechanisms-cards-list";
 
 async function getData() {
   const data = await getMechanisms();
