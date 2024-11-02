@@ -32,7 +32,7 @@ export default async function BuildsPage() {
               </div>
               <div className="relative flex items-center justify-center">
                 <h1 className="absolute text-center font-bold text-3xl sm:text-4xl xl:text-6xl max-w-[11ch] !leading-[120%]">
-                  Build Ideas
+                  Builds
                 </h1>
                 <Image
                   className="sm:max-w-none max-w-[150px] h-auto"

@@ -205,7 +205,7 @@ export default async function Home() {
 
         <section className="w-fit mx-auto px-2">
           <div className="flex items-center justify-between gap-4 flex-wrap mb-8">
-            <h2 className="font-extrabold text-3xl">Build Ideas</h2>
+            <h2 className="font-extrabold text-3xl">Builds</h2>
             <Link href="/builds" className="ml-auto">
               <Button type="primary" isLoading={false}>
                 View all
