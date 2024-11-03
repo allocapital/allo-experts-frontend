@@ -23,6 +23,10 @@ jobs:
           ssh -o StrictHostKeyChecking=no ubuntu@allo.expert << 'EOF'
             set -e  # Exit on any error
 
+            sudo -i
+
+            # Remove old dependencies and build artifacts (clean slate)
+            rm -rf node_modules package-lock.json .next
             # Navigate to the project directory
             cd /var/www/allo-experts-frontend
 
@@ -31,16 +35,13 @@ jobs:
             git pull origin main
 
             # Set permissions in case any files are root-owned
-            sudo chown -R ubuntu:ubuntu .
+            # sudo chown -R ubuntu:ubuntu .
 
-            # Remove old dependencies and build artifacts (clean slate)
-            sudo rm -rf node_modules .next  # Use sudo to ensure permission issues are avoided
-
-            # Install dependencies without sudo
+            # Install dependencies
             npm install
 
-            # Build the project with sudo
-            sudo npm run build  # Use sudo to avoid permission issues
+            # Build the project
+            npm run build
 
             # Start or restart the application using PM2
             pm2 start npm --name "allo-experts-frontend" -- run start || pm2 restart "allo-experts-frontend"
