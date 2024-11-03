@@ -25,14 +25,14 @@ jobs:
             cd /var/www/allo-experts-frontend
 
             # Install dependencies
-            npm install > output.log 2>&1
+            sudo npm install > output.log 2>&1
 
             # Build the project
-            npm run build >> output.log 2>&1
+            sudo npm run build >> output.log 2>&1
 
             # Start or restart the application using PM2
-            pm2 start npm --name "allo-experts-frontend" -- run start >> output.log 2>&1 || pm2 restart "allo-experts-frontend" >> output.log 2>&1
+            sudo pm2 start npm --name "allo-experts-frontend" -- run start >> output.log 2>&1 || pm2 restart "allo-experts-frontend" >> output.log 2>&1
             
             # Save the PM2 process list
-            pm2 save >> output.log 2>&1
+            sudo pm2 save >> output.log 2>&1
           EOF
