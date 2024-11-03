@@ -1,8 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
-import ItemCard from "../components/item-card";
 import { Footer } from "../components/footer";
 import { getMechanisms } from "@/lib/api";
+import MechanismsCardsList from "../components/mechanisms-cards-list";
 
 async function getData() {
   const data = await getMechanisms();
@@ -60,20 +60,7 @@ export default async function MechanismsPage() {
           </div>
         </section>
 
-        <section className="px-4 mx-auto">
-          <div className="grid sm:grid-cols-3 grid-cols-2 w-fit mx-auto sm:gap-8 gap-2 gap-y-16">
-            {data.map((entry) => (
-              <ItemCard
-                to={`/mechanisms/${entry.slug}`}
-                key={entry.id}
-                title={entry.title}
-                buttonTitle="Learn more"
-                imgSrc={`${process.env.NEXT_PUBLIC_CLOUDINARY_BASE_URL}/${entry.background_img}`}
-                imgBg={entry.background_color}
-              />
-            ))}
-          </div>
-        </section>
+        <MechanismsCardsList data={data} />
 
         <Footer showMechForm={true} />
       </main>

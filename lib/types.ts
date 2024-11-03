@@ -14,7 +14,7 @@ export type Course = {
   slug: string;
   background_img: string;
   background_color: string;
-  startDate: string;
+  starts_at?: string;
   register_url: string;
 };
 
@@ -35,4 +35,16 @@ export type Expert = {
   created_at: string;
   updated_at: string;
   avatar: string;
+};
+
+export type Build = {
+  id: number;
+  title: string;
+  description: string;
+  slug: string;
+  background_img: string;
+  background_color: string;
+  type: string;
+  status: string;
+  metadata: Record<string, unknown>;
 };

@@ -2,7 +2,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button } from "./button";
 
-export const Footer = ({ showMechForm = false }: { showMechForm?: boolean }) => (
+export const Footer = ({
+  showMechForm = false,
+}: {
+  showMechForm?: boolean;
+}) => (
   <div className="mt-20 relative bg-footer-gradient-bg  sm:px-6 px-2 bg-top bg-cover">
     {showMechForm ? (
       <section className="py-24">
@@ -49,18 +53,13 @@ export const Footer = ({ showMechForm = false }: { showMechForm?: boolean }) => 
             <li>
               <Link
                 href="https://leaderboard.allo.gitcoin.co/"
-                target="_blank"
                 className="link"
               >
                 Leaderboard
               </Link>
             </li>
             <li>
-              <Link
-                href="https://allobook.gitcoin.co/"
-                target="_blank"
-                className="link"
-              >
+              <Link href="https://allobook.gitcoin.co/" className="link">
                 Book
               </Link>
             </li>

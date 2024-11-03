@@ -1,17 +1,15 @@
 import Image from "next/image";
 import Link from "next/link";
-import ItemCard from "../components/item-card";
 import { Footer } from "../components/footer";
-import { getCourses } from "@/lib/api";
-import { Course } from "@/lib/types";
-import CoursesCardsList from "../components/courses-cards-list";
+import { getBuilds } from "@/lib/api";
+import BuildsCardsList from "../components/builds-cards-list";
 
 async function getData() {
-  const data = await getCourses();
+  const data = await getBuilds();
   return data;
 }
 
-export default async function CoursesPage() {
+export default async function BuildsPage() {
   const data = await getData();
   console.log(data);
   return (
@@ -34,7 +32,7 @@ export default async function CoursesPage() {
               </div>
               <div className="relative flex items-center justify-center">
                 <h1 className="absolute text-center font-bold text-3xl sm:text-4xl xl:text-6xl max-w-[11ch] !leading-[120%]">
-                  Courses
+                  Build Ideas
                 </h1>
                 <Image
                   className="sm:max-w-none max-w-[150px] h-auto"
@@ -62,9 +60,9 @@ export default async function CoursesPage() {
           </div>
         </section>
 
-        <CoursesCardsList data={data} />
+        <BuildsCardsList data={data} />
 
-        <Footer showMechForm={true} />
+        <Footer />
       </main>
     </div>
   );

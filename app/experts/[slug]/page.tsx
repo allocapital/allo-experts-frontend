@@ -1,11 +1,13 @@
+import BuildsCardsList from "@/app/components/builds-cards-list";
 import ContactButton from "@/app/components/contact-button";
+import CoursesCardsList from "@/app/components/courses-cards-list";
 import { Footer } from "@/app/components/footer";
+import MechanismsCardsList from "@/app/components/mechanisms-cards-list";
+import RenderMarkdown from "@/app/components/render-markdown";
 import { getExpertBySlug, getExperts } from "@/lib/api";
 import { Metadata, ResolvingMetadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { remark } from "remark";
-import html from "remark-html";
 
 export async function generateStaticParams() {
   const data = await getExperts();
@@ -19,9 +21,7 @@ export async function generateMetadata(
   parent: ResolvingMetadata
 ): Promise<Metadata> {
   const expert = await getExpert(params);
-  const ogTitle = expert
-    ? `${expert.name} | Allo Expert`
-    : `Allo Experts`;
+  const ogTitle = expert ? `${expert.name} | Allo Expert` : `Allo Experts`;
   const ogDescription = "";
 
   return {
@@ -41,11 +41,6 @@ export async function generateMetadata(
 
 async function getExpert(params: { slug: string }) {
   const data = await getExpertBySlug(params.slug);
-  if (data?.description) {
-    const processedContent = await remark().use(html).process(data.description);
-    const contentHtml = processedContent.toString();
-    data.description = contentHtml;
-  }
   return data;
 }
 
@@ -87,7 +82,7 @@ export default async function ExpertPage({
                       />
                     </div>
                     <div className="">
-                      <h1 className="font-bold text-3xl sm:text-6xl max-w-[11ch] !leading-[120%] mb-4">
+                      <h1 className="font-bold text-3xl sm:text-6xl max-w-[11ch] !leading-[120%] mb-4 z-10 relative">
                         <span className="sm:flex hidden flex-col gap-0.5">
                           {expert.name.split(" ").map((entry, index) => (
                             <span key={index}>{entry}</span>
@@ -116,9 +111,39 @@ export default async function ExpertPage({
             </section>
 
             <section className="px-4 max-w-2xl mx-auto pt-8 border-t border-gray-900 w-full">
-              <div dangerouslySetInnerHTML={{ __html: expert.description }} />
+              <RenderMarkdown markdown={expert.description} />
             </section>
 
+            {expert.related_builds?.length ? (
+              <section className="mt-6 w-fit mx-auto">
+                <h2 className="font-extrabold text-2xl mb-4">Related builds</h2>
+                <BuildsCardsList data={expert.related_builds} />
+              </section>
+            ) : (
+              ""
+            )}
+
+            {expert.related_mechanisms?.length ? (
+              <section className="mt-6 w-fit mx-auto">
+                <h2 className="font-extrabold text-2xl mb-4">
+                  Related mechanisms
+                </h2>
+                <MechanismsCardsList data={expert.related_mechanisms} />
+              </section>
+            ) : (
+              ""
+            )}
+
+            {expert.related_courses?.length ? (
+              <section className="mt-6 w-fit mx-auto">
+                <h2 className="font-extrabold text-2xl mb-4">
+                  Related courses
+                </h2>
+                <CoursesCardsList data={expert.related_courses} />
+              </section>
+            ) : (
+              ""
+            )}
             <Footer />
           </main>
         </div>

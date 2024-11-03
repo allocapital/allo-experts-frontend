@@ -1,11 +1,11 @@
-import { Expert, Mechanism, Course } from "./types";
+import { Expert, Mechanism, Course, Build } from "./types";
 
 export const getMechanisms = async () => {
   let data: Mechanism[] = [];
   try {
     const resp = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/mechanisms`,
-      { next: { revalidate: 1 } }
+      { cache: "no-store" }
     );
     if (!resp.ok) throw new Error(resp.statusText);
     data = await resp.json();
@@ -16,11 +16,17 @@ export const getMechanisms = async () => {
 };
 
 export const getMechanismBySlug = async (slug: string) => {
-  let data: Mechanism | undefined;
+  let data:
+    | (Mechanism & {
+        related_experts: Expert[];
+        related_builds: Build[];
+        related_courses: Course[];
+      })
+    | undefined;
   try {
     const resp = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/mechanisms/${slug}`,
-      { next: { revalidate: 0 } }
+      { cache: "no-store" }
     );
     if (!resp.ok) throw new Error(resp.statusText);
     data = await resp.json();
@@ -36,7 +42,8 @@ export const getExperts = async () => {
 
   try {
     const resp = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/experts`
+      `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/experts`,
+      { cache: "no-store" }
     );
     if (!resp.ok) throw new Error(resp.statusText);
     data = await resp.json();
@@ -47,10 +54,17 @@ export const getExperts = async () => {
 };
 
 export const getExpertBySlug = async (slug: string) => {
-  let data: Expert | undefined;
+  let data:
+    | (Expert & {
+        related_mechanisms: Mechanism[];
+        related_builds: Build[];
+        related_courses: Course[];
+      })
+    | undefined;
   try {
     const resp = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/experts/${slug}`
+      `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/experts/${slug}`,
+      { cache: "no-store" }
     );
     if (!resp.ok) throw new Error(resp.statusText);
     data = await resp.json();
@@ -66,7 +80,7 @@ export const getCourses = async () => {
   try {
     const resp = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/courses`,
-      { next: { revalidate: 0 } }
+      { cache: "no-store" }
     );
     if (!resp.ok) throw new Error(resp.statusText);
     data = await resp.json();
@@ -78,13 +92,57 @@ export const getCourses = async () => {
 };
 
 export const getCourseBySlug = async (slug: string) => {
-  let data: Course | undefined;
+  let data:
+    | (Course & {
+        related_mechanisms: Mechanism[];
+        related_builds: Build[];
+        related_experts: Expert[];
+      })
+    | undefined;
   try {
     const resp = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/courses/${slug}`
+      `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/courses/${slug}`,
+      { cache: "no-store" }
     );
     if (!resp.ok) throw new Error(resp.statusText);
     data = await resp.json();
+  } catch (err) {
+    console.log(err);
+  }
+  return data;
+};
+
+export const getBuilds = async () => {
+  let data: Build[] = [];
+  try {
+    const resp = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/builds`,
+      { cache: "no-store" }
+    );
+    if (!resp.ok) throw new Error(resp.statusText);
+    data = await resp.json();
+  } catch (err) {
+    console.log(err);
+  }
+  return data;
+};
+
+export const getBuildBySlug = async (slug: string) => {
+  let data:
+    | (Build & {
+        related_mechanisms: Mechanism[];
+        related_experts: Expert[];
+        related_courses: Course[];
+      })
+    | undefined;
+  try {
+    const resp = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/builds/${slug}`,
+      { cache: "no-store" }
+    );
+    if (!resp.ok) throw new Error(resp.statusText);
+    data = await resp.json();
+    console.log(data);
   } catch (err) {
     console.log(err);
   }

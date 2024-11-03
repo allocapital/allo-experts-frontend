@@ -10,15 +10,15 @@ import { Button } from "./button";
 
 export default function Header() {
   return (
-    <header className="sm:px-6 px-2 bg-black flex items-center justify-between sm:gap-8 gap-4 py-2">
+    <header className="sm:px-6 px-2 bg-black flex items-center justify-between sm:gap-8 gap-4 py-2 z-10 relative">
       <div className="flex items-center sm:gap-16 gap-4">
-        <Link href="https://allo.gitcoin.co/" target="_blank">
+        <Link href="/">
           <Image
             src="/allo-logo.svg"
             alt="Allo logo"
             width={74}
             height={20}
-            className="sm:max-w-none max-h-[15px] w-auto"
+            className="sm:max-h-[none] max-h-[15px] sm:w-[74px] w-auto"
           />
         </Link>
         <div className="sm:hidden">
@@ -33,18 +33,13 @@ export default function Header() {
               <DropdownMenuItem>
                 <Link
                   href="https://leaderboard.allo.gitcoin.co/"
-                  target="_blank"
                   className="w-full"
                 >
                   Leaderboard
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem>
-                <Link
-                  href="https://allobook.gitcoin.co/"
-                  target="_blank"
-                  className="w-full"
-                >
+                <Link href="https://allobook.gitcoin.co/" className="w-full">
                   Book
                 </Link>
               </DropdownMenuItem>
@@ -61,18 +56,13 @@ export default function Header() {
             <li>
               <Link
                 href="https://leaderboard.allo.gitcoin.co/"
-                target="_blank"
                 className="link white"
               >
                 Leaderboard
               </Link>
             </li>
             <li>
-              <Link
-                href="https://allobook.gitcoin.co/"
-                target="_blank"
-                className="link white"
-              >
+              <Link href="https://allobook.gitcoin.co/" className="link white">
                 Book
               </Link>
             </li>
@@ -81,7 +71,9 @@ export default function Header() {
       </div>
 
       <Link href="https://t.me/+eY1-8OcToHI3ZWJh" target="_blank">
-        <Button type="tertiary">Join Telegram</Button>
+        <Button type="tertiary" className="sm:text-base text-sm sm:px-5 px-2">
+          Join Telegram
+        </Button>
       </Link>
     </header>
   );
