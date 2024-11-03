@@ -11,10 +11,10 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3  # Updated to v3 for Node 20 compatibility
 
       - name: Set up SSH
-        uses: webfactory/ssh-agent@v0.5.3
+        uses: webfactory/ssh-agent@v0.5.4  # Updated to latest version compatible with Node 20
         with:
           ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
 
@@ -34,7 +34,7 @@ jobs:
             sudo npm run build >> output.log 2>&1
 
             # Start or restart the application using PM2
-            sudo pm2 start npm --name "allo-experts-frontend" -- run start >> output.log 2>&1 || pm2 restart "allo-experts-frontend" >> output.log 2>&1
+            sudo pm2 start npm --name "allo-experts-frontend" -- run start >> output.log 2>&1 || sudo pm2 restart "allo-experts-frontend" >> output.log 2>&1
             
             # Save the PM2 process list
             sudo pm2 save >> output.log 2>&1
