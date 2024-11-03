@@ -24,6 +24,9 @@ jobs:
             # Navigate to your project directory
             cd /var/www/allo-experts-frontend
 
+            # Pull the latest changes from the main branch
+            sudo git pull origin main
+
             # Install dependencies
             sudo npm install > output.log 2>&1
 
