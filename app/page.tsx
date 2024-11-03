@@ -93,7 +93,7 @@ export default async function Home() {
                 <Link
                   className="sm:w-auto w-full"
                   href={
-                    "https://www.blurb.com/b/12052748-onchain-capital-allocation-handbook"
+                    "https://www.blurb.com/b/12162768-onchain-capital-allocation-handbook-explorers-edi"
                   }
                   target="_blank"
                 >
@@ -120,7 +120,7 @@ export default async function Home() {
               </div>
             </div>
             <Image
-              src="/allobook-cover.png"
+              src="/allobook-v2.png"
               alt="Allo book cover"
               width={329}
               height={493}
@@ -205,7 +205,7 @@ export default async function Home() {
 
         <section className="w-fit mx-auto px-2">
           <div className="flex items-center justify-between gap-4 flex-wrap mb-8">
-            <h2 className="font-extrabold text-3xl">Build Ideas</h2>
+            <h2 className="font-extrabold text-3xl">Builds</h2>
             <Link href="/builds" className="ml-auto">
               <Button type="primary" isLoading={false}>
                 View all

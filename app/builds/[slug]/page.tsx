@@ -26,7 +26,7 @@ export async function generateMetadata(
   parent: ResolvingMetadata
 ): Promise<Metadata> {
   const builds = await getBuild(params);
-  const ogTitle = builds ? `${builds.title} | Build Ideas` : `Build Ideas`;
+  const ogTitle = builds ? `${builds.title} | Builds` : `Builds`;
   const ogDescription = "";
 
   return {
