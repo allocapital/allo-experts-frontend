@@ -34,13 +34,13 @@ jobs:
             sudo chown -R ubuntu:ubuntu .
 
             # Remove old dependencies and build artifacts (clean slate)
-            rm -rf node_modules .next
+            sudo rm -rf node_modules .next  # Use sudo to ensure permission issues are avoided
 
             # Install dependencies without sudo
             npm install
 
-            # Build the project
-            npm run build
+            # Build the project with sudo
+            sudo npm run build  # Use sudo to avoid permission issues
 
             # Start or restart the application using PM2
             pm2 start npm --name "allo-experts-frontend" -- run start || pm2 restart "allo-experts-frontend"
