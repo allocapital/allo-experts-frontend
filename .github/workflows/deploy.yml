@@ -21,21 +21,30 @@ jobs:
       - name: Deploy to EC2
         run: |
           ssh -o StrictHostKeyChecking=no ubuntu@allo.expert << 'EOF'
-            # Navigate to your project directory
+            set -e  # Exit on any error
+
+            # Navigate to the project directory
             cd /var/www/allo-experts-frontend
 
             # Pull the latest changes from the main branch
-            sudo git pull origin main
+            git reset --hard  # Discard local changes
+            git pull origin main
 
-            # Install dependencies
-            sudo npm install > output.log 2>&1
+            # Set permissions in case any files are root-owned
+            sudo chown -R ubuntu:ubuntu .
+
+            # Remove old dependencies and build artifacts (clean slate)
+            rm -rf node_modules .next
+
+            # Install dependencies without sudo
+            npm install
 
             # Build the project
-            sudo npm run build >> output.log 2>&1
+            npm run build
 
             # Start or restart the application using PM2
-            sudo pm2 start npm --name "allo-experts-frontend" -- run start >> output.log 2>&1 || pm2 restart "allo-experts-frontend" >> output.log 2>&1
+            pm2 start npm --name "allo-experts-frontend" -- run start || pm2 restart "allo-experts-frontend"
             
             # Save the PM2 process list
-            sudo pm2 save >> output.log 2>&1
+            pm2 save
           EOF
