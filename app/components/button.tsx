@@ -1,13 +1,6 @@
 import { ReactNode } from "react";
 import { tv } from "tailwind-variants";
 
-// interface ButtonProps {
-//   isLoading?: boolean;
-//   disabled?: boolean;
-//   className?: string;
-//   buttonVariant?: "primary" | "secondary";
-// }
-
 const button = tv({
   base: "px-5 py-3.5 w-fit text-center rounded-lg font-mono font-medium leading-none flex-shrink-0 transition-all duration-300",
   variants: {

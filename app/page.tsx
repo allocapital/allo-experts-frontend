@@ -4,9 +4,16 @@ import HeroActions from "./components/hero-actions";
 import Link from "next/link";
 import { Footer } from "./components/footer";
 import ItemCard from "./components/item-card";
-import { getBuilds, getCourses, getExperts, getMechanisms } from "@/lib/api";
+import {
+  getBuilds,
+  getCourses,
+  getExperts,
+  getMechanisms,
+  getTrends,
+} from "@/lib/api";
 import ExpertCard from "./components/expert-card";
 import { formatDate } from "@/lib/utils";
+import FundingTrendsChart from "./components/trends-chart";
 
 async function getMechanismsList() {
   const data = await getMechanisms();
@@ -29,12 +36,18 @@ async function getBuildsList() {
   return data;
 }
 
+async function getTrendsList() {
+  const data = await getTrends();
+  return data;
+}
+
 export default async function Home() {
-  const [mechanisms, experts, courses, builds] = await Promise.all([
+  const [mechanisms, experts, courses, builds, trends] = await Promise.all([
     getMechanismsList(),
     getExpertsList(),
     getCoursesList(),
     getBuildsList(),
+    getTrendsList(),
   ]);
 
   return (
@@ -78,6 +91,17 @@ export default async function Home() {
             </div>
           </section> */}
         </div>
+
+        <section className="w-full mx-auto px-2 max-w-5xl">
+          <div className="flex items-center justify-between gap-4 flex-wrap mb-8">
+            <h2 className="font-extrabold text-3xl">Trends</h2>
+            <Link href="/trends">
+              <Button type="primary">View more data</Button>
+            </Link>
+          </div>
+          <FundingTrendsChart data={trends} showTopMechanisms={true} />
+        </section>
+
         <section className="w-fit mx-auto px-2" id="becomeExpert">
           <div className="flex items-center gap-6 sm:flex-row flex-col-reverse">
             <div>

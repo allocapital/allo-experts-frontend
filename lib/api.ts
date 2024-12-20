@@ -1,4 +1,41 @@
-import { Expert, Mechanism, Course, Build } from "./types";
+import { mockTrendsData } from "./mock";
+import { Expert, Mechanism, Course, Build, TrendItem } from "./types";
+
+export const getTrends = async () => {
+  let data: TrendItem[] = [];
+  try {
+    const resp = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/trends`,
+      { cache: "no-store" }
+    );
+    // if (!resp.ok) throw new Error(resp.statusText);
+    // data = await resp.json();
+    data = mockTrendsData;
+  } catch (err) {
+    console.log(err);
+  }
+  return data;
+};
+
+export const getTrendsBySlug = async (slug: string) => {
+  let data:
+    | TrendItem[]
+    | undefined;
+  try {
+    const resp = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/trends/${slug}`,
+      { cache: "no-store" }
+    );
+    // if (!resp.ok) throw new Error(resp.statusText);
+    // data = await resp.json();
+    data = mockTrendsData.filter((item) => item.mechanism_slug === slug);
+    console.log(data);
+  } catch (err) {
+    console.log(err);
+  }
+  return data;
+};
+
 
 export const getMechanisms = async () => {
   let data: Mechanism[] = [];
