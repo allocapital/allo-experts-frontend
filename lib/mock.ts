@@ -12,6 +12,7 @@ export const mockTrendsData = [
     mechanism_name: "Quadratic Funding",
     value: 700000,
   },
+  
   {
     month: "2023-12",
     mechanism_slug: "cookie-jar",
