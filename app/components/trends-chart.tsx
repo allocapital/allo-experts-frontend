@@ -38,7 +38,7 @@ const FundingTrendsChart: React.FC<Props> = ({
 }) => {
   const { transformedData, mechanismStats } = useMemo(() => {
     const mechanisms = [...new Set(data.map((item) => item.mechanism_slug))];
-    const months = [...new Set(data.map((item) => item.month))].sort();
+    const quarters = [...new Set(data.map((item) => item.quarter))].sort();
 
     const mechanismStats = mechanisms
       .map((mechanism) => {
@@ -46,47 +46,47 @@ const FundingTrendsChart: React.FC<Props> = ({
           (item) => item.mechanism_slug === mechanism
         );
 
-        const lastMonthValue =
-          mechanismData.find((item) => item.month === months[months.length - 1])
-            ?.value || 0;
+        const lastQuarterValue =
+          mechanismData.find(
+            (item) => item.quarter === quarters[quarters.length - 1]
+          )?.value || 0;
 
-        const currentMonthData = mechanismData.find(
-          (item) => item.month === months[months.length - 1]
+        const currentQuarterData = mechanismData.find(
+          (item) => item.quarter === quarters[quarters.length - 1]
         );
-        const previousMonthData = mechanismData.find(
-          (item) => item.month === months[months.length - 2]
+        const previousQuarterData = mechanismData.find(
+          (item) => item.quarter === quarters[quarters.length - 2]
         );
 
-        const momGrowthRate = previousMonthData
-          ? (((currentMonthData?.value || 0) - previousMonthData.value) /
-              previousMonthData.value) *
+        const qoqGrowthRate = previousQuarterData
+          ? (((currentQuarterData?.value || 0) - previousQuarterData.value) /
+              previousQuarterData.value) *
             100
           : 0;
 
         return {
           mechanism,
           mechanismName: mechanismData[0]?.mechanism_name || mechanism,
-          lastMonthValue,
-          momGrowthRate,
+          lastQuarterValue,
+          qoqGrowthRate,
         };
       })
-      .sort((a, b) => b.lastMonthValue - a.lastMonthValue);
+      .sort((a, b) => b.lastQuarterValue - a.lastQuarterValue);
 
-    const transformedData = months.map((month) => {
-      const monthData: { [key: string]: string | number } = { month };
+    const transformedData = quarters.map((quarter) => {
+      const quarterData: { [key: string]: string | number } = { quarter };
       mechanisms.forEach((mechanism) => {
         const record = data.find(
-          (item) => item.month === month && item.mechanism_slug === mechanism
+          (item) =>
+            item.quarter === quarter && item.mechanism_slug === mechanism
         );
-        monthData[mechanism] = record?.value ?? 0;
+        quarterData[mechanism] = record?.value ?? 0;
       });
-      return monthData;
+      return quarterData;
     });
 
     return { transformedData, mechanismStats };
   }, [data]);
-
-
 
   const displayedMechanisms = showTopMechanisms
     ? mechanismStats.slice(0, 5)
@@ -98,14 +98,14 @@ const FundingTrendsChart: React.FC<Props> = ({
         <ResponsiveContainer>
           <LineChart data={transformedData}>
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="month" tick={{ fontSize: 12 }} />
+            <XAxis dataKey="quarter" tick={{ fontSize: 12 }} />
             <YAxis
               tick={{ fontSize: 12 }}
               tickFormatter={(value) => formatAmount(value)}
             />
             <Tooltip
               formatter={(value: number) => [formatAmount(value)]}
-              labelFormatter={(label: string) => `Month: ${label}`}
+              labelFormatter={(label: string) => `Quarter: ${label}`}
             />
             <Legend />
             {displayedMechanisms.map((mechStat, index) => {
@@ -129,8 +129,8 @@ const FundingTrendsChart: React.FC<Props> = ({
                   strokeWidth={2}
                   dot={{ r: 4 }}
                   name={`${mechStat.mechanismName} (${
-                    mechStat.momGrowthRate > 0 ? "+" : ""
-                  }${mechStat.momGrowthRate.toFixed(1)}% vs last month)`}
+                    mechStat.qoqGrowthRate > 0 ? "+" : ""
+                  }${mechStat.qoqGrowthRate.toFixed(1)}% vs last quarter)`}
                 />
               );
             })}
@@ -142,7 +142,7 @@ const FundingTrendsChart: React.FC<Props> = ({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="p-4 border rounded-lg">
             <h3 className="text-lg font-semibold text-green-700 mb-2">
-              Top Mechanisms by Latest Month Volume
+              Top Mechanisms by Latest Quarter Volume
             </h3>
             {mechanismStats.slice(0, 3).map((mechStat) => (
               <div
@@ -151,15 +151,15 @@ const FundingTrendsChart: React.FC<Props> = ({
               >
                 <span className="font-medium">{mechStat.mechanismName}</span>
                 <span className="text-green-600">
-                  ${formatAmount(mechStat.lastMonthValue)} (+
-                  {mechStat.momGrowthRate.toFixed(1)}%)
+                  ${formatAmount(mechStat.lastQuarterValue)} (+
+                  {mechStat.qoqGrowthRate.toFixed(1)}%)
                 </span>
               </div>
             ))}
           </div>
           <div className="p-4 border rounded-lg">
             <h3 className="text-lg font-semibold text-red-700 mb-2">
-              Lower Volume Mechanisms in Latest Month
+              Lower Volume Mechanisms in Latest Quarter
             </h3>
             {mechanismStats
               .slice(-3)
@@ -171,8 +171,8 @@ const FundingTrendsChart: React.FC<Props> = ({
                 >
                   <span className="font-medium">{mechStat.mechanismName}</span>
                   <span className="text-red-600">
-                    ${formatAmount(mechStat.lastMonthValue)} (
-                    {mechStat.momGrowthRate.toFixed(1)}%)
+                    ${formatAmount(mechStat.lastQuarterValue)} (
+                    {mechStat.qoqGrowthRate.toFixed(1)}%)
                   </span>
                 </div>
               ))}

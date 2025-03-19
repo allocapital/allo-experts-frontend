@@ -1,3 +1,4 @@
+
 "use client";
 
 import { formatAmount } from "@/app/lib/utils";
@@ -23,7 +24,7 @@ interface Props {
 const MechanismTrendChart: React.FC<Props> = ({ data }) => {
   const { chartData, stats } = useMemo(() => {
     const mechanismData = data.sort(
-      (a, b) => new Date(a.month).getTime() - new Date(b.month).getTime()
+      (a, b) => new Date(a.quarter).getTime() - new Date(b.quarter).getTime()
     );
 
     if (mechanismData.length < 2) return { chartData: [], stats: null };
@@ -37,26 +38,26 @@ const MechanismTrendChart: React.FC<Props> = ({ data }) => {
     const minValue = Math.min(...mechanismData.map((item) => item.value));
     const growthRate = calculateGrowthRate(firstValue, lastValue);
 
-    const monthlyGrowth = mechanismData.map((item, index) => {
+    const quarterlyGrowth = mechanismData.map((item, index) => {
       if (index === 0) return 0;
       return calculateGrowthRate(mechanismData[index - 1].value, item.value);
     });
 
     return {
       chartData: mechanismData.map((item, index) => ({
-        month: item.month,
+        quarter: item.quarter,
         value: item.value,
-        monthlyGrowth: monthlyGrowth[index],
+        quarterlyGrowth: quarterlyGrowth[index],
       })),
       stats: {
         totalFunding: lastValue,
-        avgMonthlyFunding: avgValue,
+        avgQuarterlyFunding: avgValue,
         maxFunding: maxValue,
         minFunding: minValue,
         overallGrowth: growthRate,
-        avgMonthlyGrowth:
-          monthlyGrowth.reduce((sum, rate) => sum + rate, 0) /
-          (monthlyGrowth.length - 1),
+        avgQuarterlyGrowth:
+          quarterlyGrowth.reduce((sum, rate) => sum + rate, 0) /
+          (quarterlyGrowth.length - 1),
       },
     };
   }, [data]);
@@ -87,15 +88,15 @@ const MechanismTrendChart: React.FC<Props> = ({ data }) => {
         </div>
         <div className="p-4 bg-white rounded-lg shadow">
           <h3 className="text-sm font-medium text-gray-500">
-            Avg Monthly Growth
+            Avg Quarterly Growth
           </h3>
           <p
             className={`text-2xl font-semibold ${
-              stats.avgMonthlyGrowth >= 0 ? "text-green-700" : "text-red-700"
+              stats.avgQuarterlyGrowth >= 0 ? "text-green-700" : "text-red-700"
             }`}
           >
-            {stats.avgMonthlyGrowth > 0 ? "+" : ""}
-            {stats.avgMonthlyGrowth.toFixed(1)}%
+            {stats.avgQuarterlyGrowth > 0 ? "+" : ""}
+            {stats.avgQuarterlyGrowth.toFixed(1)}%
           </p>
         </div>
       </div>
@@ -104,7 +105,7 @@ const MechanismTrendChart: React.FC<Props> = ({ data }) => {
         <ResponsiveContainer>
           <LineChart data={chartData}>
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="month" tick={{ fontSize: 12 }} />
+            <XAxis dataKey="quarter" tick={{ fontSize: 12 }} />
             <YAxis
               yAxisId="funding"
               tick={{ fontSize: 12 }}
@@ -120,7 +121,7 @@ const MechanismTrendChart: React.FC<Props> = ({ data }) => {
               formatter={(value: number, name: string) => {
                 if (name === "value")
                   return [`$${formatAmount(value)}`, "Funding"];
-                return [`${value.toFixed(1)}%`, "Monthly Growth"];
+                return [`${value.toFixed(1)}%`, "Quarterly Growth"];
               }}
             />
             <Line
@@ -135,11 +136,11 @@ const MechanismTrendChart: React.FC<Props> = ({ data }) => {
             <Line
               yAxisId="growth"
               type="monotone"
-              dataKey="monthlyGrowth"
+              dataKey="quarterlyGrowth"
               stroke="#6b7280"
               strokeDasharray="5 5"
               dot={{ r: 3 }}
-              name="monthlyGrowth"
+              name="quarterlyGrowth"
             />
           </LineChart>
         </ResponsiveContainer>
@@ -155,7 +156,7 @@ const MechanismTrendChart: React.FC<Props> = ({ data }) => {
         <div className="p-4 bg-white rounded-lg shadow">
           <h3 className="text-sm font-medium text-gray-500">Average Funding</h3>
           <p className="text-xl font-semibold">
-            ${formatAmount(stats.avgMonthlyFunding)}
+            ${formatAmount(stats.avgQuarterlyFunding)}
           </p>
         </div>
         <div className="p-4 bg-white rounded-lg shadow">

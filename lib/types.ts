@@ -1,6 +1,5 @@
-
 export interface TrendItem {
-  month: string; // "YYYY-MM" format
+  quarter: string; // "YYYY-Q#" format
   mechanism_slug: string;
   mechanism_name: string;
   value: number; // usd
