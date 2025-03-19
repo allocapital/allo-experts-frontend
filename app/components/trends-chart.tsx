@@ -15,7 +15,7 @@ import {
 import { formatAmount } from "../lib/utils";
 
 const COLORS = {
-  highPerformers: ["#14532d", "#166534", "#15803d", "#22c55e", "#4ade80"],
+  highPerformers: ["#14532d", "#33a65f", "#4abe7b", "#7ddca0", "#aff0c8"],
   default: [
     "#14b8a6", // teal
     "#3b82f6", // blue
@@ -111,7 +111,6 @@ const FundingTrendsChart: React.FC<Props> = ({
             {displayedMechanisms.map((mechStat, index) => {
               const isTopPerformer = index < 3;
               const isLowPerformer = index >= displayedMechanisms.length - 3;
-              if (isLowPerformer) console.log(index);
               const colorArray = showTopMechanisms
                 ? COLORS.highPerformers
                 : isTopPerformer

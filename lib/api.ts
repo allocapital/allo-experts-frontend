@@ -5,37 +5,48 @@ export const getTrends = async () => {
   let data: TrendItem[] = [];
   try {
     const resp = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/trends`,
+      `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/mechanisms/trends/`,
       { cache: "no-store" }
     );
-    // if (!resp.ok) throw new Error(resp.statusText);
-    // data = await resp.json();
-    data = mockTrendsData;
+    if (!resp.ok) {
+      console.log(`API error: ${resp.status} ${resp.statusText}`);
+      // Fallback to mock data if API fails
+      if (process.env.NODE_ENV === "development") data = mockTrendsData;
+    } else {
+      data = await resp.json();
+    }
   } catch (err) {
-    console.log(err);
+    console.log("Error fetching trends data:", err);
+    // Fall back to mock data if fetch fails
+    data = mockTrendsData;
   }
   return data;
 };
 
 export const getTrendsBySlug = async (slug: string) => {
-  let data:
-    | TrendItem[]
-    | undefined;
+  let data: TrendItem[] | undefined;
   try {
     const resp = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/trends/${slug}`,
+      `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/mechanisms/trends/${slug}/`,
       { cache: "no-store" }
     );
-    // if (!resp.ok) throw new Error(resp.statusText);
-    // data = await resp.json();
-    data = mockTrendsData.filter((item) => item.mechanism_slug === slug);
-    console.log(data);
+    if (!resp.ok) {
+      console.log(`API error: ${resp.status} ${resp.statusText}`);
+      // Fallback to mock data if API fails
+      if (process.env.NODE_ENV === "development")
+        data = mockTrendsData.filter((item) => item.mechanism_slug === slug);
+    } else {
+      data = await resp.json();
+    }
+    console.log("Trend data for mechanism:", data);
   } catch (err) {
-    console.log(err);
+    console.log("Error fetching mechanism trends data:", err);
+    // Fallback to mock data if fetch fails
+    if (process.env.NODE_ENV === "development")
+      data = mockTrendsData.filter((item) => item.mechanism_slug === slug);
   }
   return data;
 };
-
 
 export const getMechanisms = async () => {
   let data: Mechanism[] = [];
