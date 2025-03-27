@@ -111,15 +111,15 @@ export default async function MechanismPage({
               </div>
             </section>
 
-            <section className="px-4 max-w-2xl mx-auto">
-              <RenderMarkdown markdown={mechanism.description} />
-            </section>
-
             {trends?.length && (
               <section className="px-2 w-full max-w-5xl mx-auto">
                 <MechanismTrendChart data={trends} />
               </section>
             )}
+
+            <section className="px-4 max-w-2xl mx-auto">
+              <RenderMarkdown markdown={mechanism.description} />
+            </section>
 
             {mechanism.related_builds?.length ? (
               <section className="mt-6 w-fit mx-auto">
