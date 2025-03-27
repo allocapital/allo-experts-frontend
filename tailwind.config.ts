@@ -60,6 +60,13 @@ const config: Config = {
       },
     },
   },
-  plugins: [animate],
+  plugins: [
+    animate,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    function ({ addVariant }: any) {
+      addVariant("child", "& > *");
+      addVariant("child-hover", "& > *:hover");
+    },
+  ],
 };
 export default config;

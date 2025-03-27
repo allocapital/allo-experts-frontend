@@ -1,5 +1,5 @@
 import { Footer } from "@/app/components/footer";
-import { getMechanismBySlug, getMechanisms } from "@/lib/api";
+import { getMechanismBySlug, getMechanisms, getTrendsBySlug } from "@/lib/api";
 import { Metadata, ResolvingMetadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -7,6 +7,7 @@ import RenderMarkdown from "@/app/components/render-markdown";
 import BuildsCardsList from "@/app/components/builds-cards-list";
 import ExpertsCardsList from "@/app/components/experts-cards-list";
 import CoursesCardsList from "@/app/components/courses-cards-list";
+import MechanismTrendChart from "./components/mechanism-trend-chart";
 
 export async function generateStaticParams() {
   const data = await getMechanisms();
@@ -17,7 +18,11 @@ export async function generateStaticParams() {
 
 async function getMechanism(params: { slug: string }) {
   const data = await getMechanismBySlug(params.slug);
+  return data;
+}
 
+async function getTrends(params: { slug: string }) {
+  const data = await getTrendsBySlug(params.slug);
   return data;
 }
 
@@ -52,6 +57,7 @@ export default async function MechanismPage({
   params: { slug: string };
 }) {
   const mechanism = await getMechanism(params);
+  const trends = await getTrends(params);
   return (
     <>
       {!!mechanism ? (
@@ -104,6 +110,12 @@ export default async function MechanismPage({
                 />
               </div>
             </section>
+
+            {trends?.length && (
+              <section className="px-2 w-full max-w-5xl mx-auto">
+                <MechanismTrendChart data={trends} />
+              </section>
+            )}
 
             <section className="px-4 max-w-2xl mx-auto">
               <RenderMarkdown markdown={mechanism.description} />

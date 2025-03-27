@@ -1,3 +1,10 @@
+export interface TrendItem {
+  quarter: string; // "YYYY-Q#" format
+  mechanism_slug: string;
+  mechanism_name: string;
+  value: number; // usd
+}
+
 export type Mechanism = {
   id: number;
   title: string;
@@ -19,8 +26,8 @@ export type Course = {
 };
 
 export enum EXPERT_IN {
-  ALLO_MECHANISMS = 'allo_mechanisms',
-  ALLO_DEV = 'allo_dev'
+  ALLO_MECHANISMS = "allo_mechanisms",
+  ALLO_DEV = "allo_dev",
 }
 
 export type Expert = {
