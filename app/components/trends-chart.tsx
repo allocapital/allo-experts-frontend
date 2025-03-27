@@ -198,7 +198,7 @@ const FundingTrendsChart: React.FC<Props> = ({
         <div className="gap-4 flex flex-col md:flex-row child:w-full justify-center">
           <div className="p-4 border rounded-lg">
             <h3 className="text-lg font-semibold text-green-700 mb-2">
-              Top Mechanisms by Latest Quarter Volume
+              Top Mechanisms by Latest Complete Quarter Volume
             </h3>
             {mechanismStats.slice(0, 3).map((mechStat) => (
               <div
