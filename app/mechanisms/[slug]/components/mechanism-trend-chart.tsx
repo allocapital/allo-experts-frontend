@@ -1,6 +1,6 @@
-
 "use client";
 
+import InfoTooltip from "@/app/components/info-tooltip";
 import { formatAmount } from "@/app/lib/utils";
 import { TrendItem } from "@/lib/types";
 import React, { useMemo } from "react";
@@ -30,13 +30,19 @@ const MechanismTrendChart: React.FC<Props> = ({ data }) => {
     if (mechanismData.length < 2) return { chartData: [], stats: null };
 
     const firstValue = mechanismData[0].value;
+    const lastCompleteValue =
+      mechanismData[mechanismData.length - 2]?.value || firstValue;
     const lastValue = mechanismData[mechanismData.length - 1].value;
+
     const avgValue =
       mechanismData.reduce((sum, item) => sum + item.value, 0) /
       mechanismData.length;
+
     const maxValue = Math.max(...mechanismData.map((item) => item.value));
     const minValue = Math.min(...mechanismData.map((item) => item.value));
-    const growthRate = calculateGrowthRate(firstValue, lastValue);
+
+    // Calculate growth based on last complete quarter 
+    const overallGrowth = calculateGrowthRate(firstValue, lastCompleteValue);
 
     const quarterlyGrowth = mechanismData.map((item, index) => {
       if (index === 0) return 0;
@@ -48,16 +54,18 @@ const MechanismTrendChart: React.FC<Props> = ({ data }) => {
         quarter: item.quarter,
         value: item.value,
         quarterlyGrowth: quarterlyGrowth[index],
+        isCurrentQuarter: index === mechanismData.length - 1,
       })),
       stats: {
         totalFunding: lastValue,
+        lastCompleteQuarterFunding: lastCompleteValue,
         avgQuarterlyFunding: avgValue,
         maxFunding: maxValue,
         minFunding: minValue,
-        overallGrowth: growthRate,
+        overallGrowth: overallGrowth,
         avgQuarterlyGrowth:
-          quarterlyGrowth.reduce((sum, rate) => sum + rate, 0) /
-          (quarterlyGrowth.length - 1),
+          quarterlyGrowth.slice(0, -1).reduce((sum, rate) => sum + rate, 0) /
+          (quarterlyGrowth.length - 2 || 1),
       },
     };
   }, [data]);
@@ -68,15 +76,20 @@ const MechanismTrendChart: React.FC<Props> = ({ data }) => {
 
   return (
     <div className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="p-4 bg-white rounded-lg shadow">
           <h3 className="text-sm font-medium text-gray-500">Current Funding</h3>
           <p className="text-2xl font-semibold">
             ${formatAmount(stats.totalFunding)}
+            <span className="text-xs text-amber-600 ml-2">(In Progress)</span>
           </p>
         </div>
         <div className="p-4 bg-white rounded-lg shadow">
-          <h3 className="text-sm font-medium text-gray-500">Overall Growth</h3>
+          <h3 className="text-sm font-medium text-gray-500">
+            <InfoTooltip tooltip="Overall growth for the complete quarters">
+              <span className="text-sm text-gray-400 ml-1">Overall Growth</span>
+            </InfoTooltip>
+          </h3>
           <p
             className={`text-2xl font-semibold ${
               stats.overallGrowth >= 0 ? "text-green-700" : "text-red-700"
@@ -88,7 +101,11 @@ const MechanismTrendChart: React.FC<Props> = ({ data }) => {
         </div>
         <div className="p-4 bg-white rounded-lg shadow">
           <h3 className="text-sm font-medium text-gray-500">
-            Avg Quarterly Growth
+            <InfoTooltip tooltip="Avg quarterly growth for the complete quarters">
+              <span className="text-sm text-gray-400 ml-1">
+                Avg Quarterly Growth
+              </span>
+            </InfoTooltip>
           </h3>
           <p
             className={`text-2xl font-semibold ${
@@ -102,6 +119,10 @@ const MechanismTrendChart: React.FC<Props> = ({ data }) => {
       </div>
 
       <div className="h-96 bg-white p-4 rounded-lg shadow">
+        <div className="text-sm text-amber-600 mb-2">
+          <span className="inline-block w-3 h-3 bg-amber-600 rounded-full mr-1"></span>
+          Last data point represents current in-progress quarter
+        </div>
         <ResponsiveContainer>
           <LineChart data={chartData}>
             <CartesianGrid strokeDasharray="3 3" />
@@ -118,9 +139,14 @@ const MechanismTrendChart: React.FC<Props> = ({ data }) => {
               tickFormatter={(value) => `${value.toFixed(0)}%`}
             />
             <Tooltip
-              formatter={(value: number, name: string) => {
-                if (name === "value")
-                  return [`$${formatAmount(value)}`, "Funding"];
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              formatter={(value: number, name: string, props: any) => {
+                if (name === "value") {
+                  const label = props.payload.isCurrentQuarter
+                    ? "Current Funding (In Progress)"
+                    : "Funding";
+                  return [`$${formatAmount(value)}`, label];
+                }
                 return [`${value.toFixed(1)}%`, "Quarterly Growth"];
               }}
             />
@@ -130,7 +156,23 @@ const MechanismTrendChart: React.FC<Props> = ({ data }) => {
               dataKey="value"
               stroke={trendColor}
               strokeWidth={2}
-              dot={{ r: 4 }}
+              dot={(props) => {
+                const { cx, cy, payload } = props;
+                return payload.isCurrentQuarter ? (
+                  <svg x={cx - 10} y={cy - 10} width={20} height={20}>
+                    <circle
+                      cx="10"
+                      cy="10"
+                      r="6"
+                      fill="#FCD34D"
+                      stroke={trendColor}
+                      strokeWidth="2"
+                    />
+                  </svg>
+                ) : (
+                  <circle cx={cx} cy={cy} r={4} fill={trendColor} />
+                );
+              }}
               name="value"
             />
             <Line
