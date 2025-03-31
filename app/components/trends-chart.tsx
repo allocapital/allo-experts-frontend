@@ -381,6 +381,7 @@ const FundingTrendsChart: React.FC<Props> = ({
           <p className="mt-2">
             Found an issue with the data? Report it in our{" "}
             <a
+              href="https://t.me/+fcYxMfa-JmxhOWYx"
               target="_blank"
               rel="noopener noreferrer"
               className="text-blue-600 hover:underline"
