@@ -1,7 +1,7 @@
 "use client";
 
 import { TrendItem } from "@/lib/types";
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import {
   LineChart,
   Line,
@@ -14,6 +14,7 @@ import {
 } from "recharts";
 import { formatAmount } from "../lib/utils";
 import InfoTooltip from "./info-tooltip";
+import { Button } from "./button";
 
 const COLORS = {
   highPerformers: ["#15803D", "#7C3AED", "#B45309", "#1D6AA3", "#06b6d4"],
@@ -37,7 +38,9 @@ const FundingTrendsChart: React.FC<Props> = ({
   data,
   showTopMechanisms = false,
 }) => {
-  const { transformedData, mechanismStats } = useMemo(() => {
+  const [viewMode, setViewMode] = useState<"chart" | "table">("chart");
+
+  const { transformedData, mechanismStats, quarters } = useMemo(() => {
     const mechanisms = [...new Set(data.map((item) => item.mechanism_slug))];
     const quarters = [...new Set(data.map((item) => item.quarter))].sort();
 
@@ -101,7 +104,7 @@ const FundingTrendsChart: React.FC<Props> = ({
       return quarterData;
     });
 
-    return { transformedData, mechanismStats };
+    return { transformedData, mechanismStats, quarters };
   }, [data]);
 
   const displayedMechanisms = showTopMechanisms
@@ -110,88 +113,195 @@ const FundingTrendsChart: React.FC<Props> = ({
 
   return (
     <div className="space-y-12">
-      <div className="w-full h-96">
-        <div className="text-sm text-amber-600 mb-2">
-          <span className="inline-block w-3 h-3 bg-amber-600 rounded-full mr-1"></span>
-          Last data point represents current in-progress quarter
+      <div className="flex flex-col space-y-4">
+        <div className="flex lg:items-center justify-between lg:flex-row flex-col gap-2">
+          <div className="text-sm text-amber-600">
+            <span className="inline-block w-3 h-3 bg-amber-600 rounded-full mr-1"></span>
+            Latest data point represents current in-progress quarter
+          </div>
+
+          {!showTopMechanisms && (
+            <div className="flex space-x-2 self-end">
+              <Button
+                type={viewMode === "chart" ? "primary" : "secondary"}
+                onClick={() => setViewMode("chart")}
+                className="text-sm"
+              >
+                Chart View
+              </Button>
+              <Button
+                type={viewMode === "table" ? "primary" : "secondary"}
+                onClick={() => setViewMode("table")}
+                className="text-sm"
+              >
+                Table View
+              </Button>
+            </div>
+          )}
         </div>
 
-        <ResponsiveContainer>
-          <LineChart data={transformedData}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="quarter" tick={{ fontSize: 12 }} />
-            <YAxis
-              tick={{ fontSize: 12 }}
-              tickFormatter={(value) => formatAmount(value)}
-            />
-            <Tooltip
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              formatter={(value: number, name: string, props: any) => {
-                const isCurrentQuarter = props.payload.isCurrentQuarter;
-                const label =
-                  isCurrentQuarter &&
-                  name !== "quarter" &&
-                  name !== "isCurrentQuarter"
-                    ? `${formatAmount(value)} (In Progress)`
-                    : formatAmount(value);
-                return [label];
-              }}
-              labelFormatter={(label: string) => `Quarter: ${label}`}
-            />
-
-            <Legend />
-            {displayedMechanisms.map((mechStat, index) => {
-              const isTopPerformer = index < 3;
-              const isLowPerformer = index >= displayedMechanisms.length - 3;
-              const colorArray = showTopMechanisms
-                ? COLORS.highPerformers
-                : isTopPerformer
-                ? COLORS.highPerformers
-                : isLowPerformer
-                ? COLORS.lowPerformers
-                : COLORS.default;
-              const colorIndex = index % colorArray.length;
-              const stroke =
-                mechStat.mechanismName.toLowerCase() === "other"
-                  ? "#9E9E9E"
-                  : colorArray[colorIndex];
-              return (
-                <Line
-                  key={mechStat.mechanism}
-                  type="monotone"
-                  dataKey={mechStat.mechanism}
-                  stroke={stroke}
-                  strokeWidth={2}
-                  dot={(props) => {
-                    const { cx, cy, payload } = props;
-                    return payload.isCurrentQuarter ? (
-                      <svg x={cx - 10} y={cy - 10} width={20} height={20}>
-                        <circle
-                          cx="10"
-                          cy="10"
-                          r="6"
-                          fill="#FCD34D"
-                          stroke={stroke}
-                          strokeWidth="2"
-                        />
-                      </svg>
-                    ) : (
-                      <circle
-                        cx={cx}
-                        cy={cy}
-                        r={4}
-                        fill={stroke}
-                      />
-                    );
-                  }}
-                  name={`${mechStat.mechanismName} (${
-                    mechStat.qoqGrowthRate > 0 ? "+" : ""
-                  }${mechStat.qoqGrowthRate.toFixed(1)}% vs previous quarter)`}
+        {viewMode === "chart" && (
+          <div className="w-full h-96">
+            <ResponsiveContainer>
+              <LineChart data={transformedData}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="quarter" tick={{ fontSize: 12 }} />
+                <YAxis
+                  tick={{ fontSize: 12 }}
+                  tickFormatter={(value) => formatAmount(value)}
                 />
-              );
-            })}
-          </LineChart>
-        </ResponsiveContainer>
+                <Tooltip
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                  formatter={(value: number, name: string, props: any) => {
+                    const isCurrentQuarter = props.payload.isCurrentQuarter;
+                    const label =
+                      isCurrentQuarter &&
+                      name !== "quarter" &&
+                      name !== "isCurrentQuarter"
+                        ? `${formatAmount(value)} (In Progress)`
+                        : formatAmount(value);
+                    return [label];
+                  }}
+                  labelFormatter={(label: string) => `Quarter: ${label}`}
+                />
+
+                <Legend />
+                {displayedMechanisms.map((mechStat, index) => {
+                  const isTopPerformer = index < 3;
+                  const isLowPerformer =
+                    index >= displayedMechanisms.length - 3;
+                  const colorArray = showTopMechanisms
+                    ? COLORS.highPerformers
+                    : isTopPerformer
+                    ? COLORS.highPerformers
+                    : isLowPerformer
+                    ? COLORS.lowPerformers
+                    : COLORS.default;
+                  const colorIndex = index % colorArray.length;
+                  const stroke =
+                    mechStat.mechanismName.toLowerCase() === "other"
+                      ? "#9E9E9E"
+                      : colorArray[colorIndex];
+                  return (
+                    <Line
+                      key={mechStat.mechanism}
+                      type="monotone"
+                      dataKey={mechStat.mechanism}
+                      stroke={stroke}
+                      strokeWidth={2}
+                      dot={(props) => {
+                        const { cx, cy, payload } = props;
+                        return payload.isCurrentQuarter ? (
+                          <svg x={cx - 10} y={cy - 10} width={20} height={20}>
+                            <circle
+                              cx="10"
+                              cy="10"
+                              r="6"
+                              fill="#FCD34D"
+                              stroke={stroke}
+                              strokeWidth="2"
+                            />
+                          </svg>
+                        ) : (
+                          <circle cx={cx} cy={cy} r={4} fill={stroke} />
+                        );
+                      }}
+                      name={`${mechStat.mechanismName} (${
+                        mechStat.qoqGrowthRate > 0 ? "+" : ""
+                      }${mechStat.qoqGrowthRate.toFixed(
+                        1
+                      )}% vs previous quarter)`}
+                    />
+                  );
+                })}
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
+        )}
+
+        {viewMode === "table" && !showTopMechanisms && (
+          <div className="overflow-x-auto border rounded-lg">
+            <table className="min-w-full divide-y divide-gray-200">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Mechanism
+                  </th>
+                  {[...quarters].reverse().map((quarter) => (
+                    <th
+                      key={quarter}
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                      {quarter}{" "}
+                      {quarter === quarters[quarters.length - 1]
+                        ? "(In Progress)"
+                        : ""}
+                    </th>
+                  ))}
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Quarter-over-Quarter Growth
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {mechanismStats.map((mechStat, index) => {
+                  const isTopPerformer = index < 3;
+                  const isLowPerformer = index >= mechanismStats.length - 3;
+                  let rowClass = "";
+                  if (isTopPerformer) rowClass = "bg-green-50";
+                  else if (isLowPerformer) rowClass = "bg-red-50";
+
+                  return (
+                    <tr key={mechStat.mechanism} className={rowClass}>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                        {mechStat.mechanismName}
+                      </td>
+                      {[...quarters].reverse().map((quarter) => {
+                        const value =
+                          transformedData.find((d) => d.quarter === quarter)?.[
+                            mechStat.mechanism
+                          ] || 0;
+                        const isCurrentQuarter =
+                          quarter === quarters[quarters.length - 1];
+
+                        return (
+                          <td
+                            key={`${mechStat.mechanism}-${quarter}`}
+                            className="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                          >
+                            ${formatAmount(value as number)}
+                            {isCurrentQuarter && (
+                              <span className="ml-1 text-amber-600">
+                                (In Progress)
+                              </span>
+                            )}
+                          </td>
+                        );
+                      })}
+                      <td
+                        className={`px-6 py-4 whitespace-nowrap text-sm ${
+                          mechStat.qoqGrowthRate > 0
+                            ? "text-green-600"
+                            : "text-red-600"
+                        }`}
+                      >
+                        {mechStat.qoqGrowthRate > 0 ? "+" : ""}
+                        {mechStat.qoqGrowthRate.toFixed(1)}%
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
 
       {!showTopMechanisms && (
@@ -254,6 +364,35 @@ const FundingTrendsChart: React.FC<Props> = ({
             ""
           )}
         </div>
+      )}
+      {!showTopMechanisms ? (
+        <div className="mt-6 p-4 bg-gray-50 rounded-lg text-gray-600">
+          <h4 className="font-medium mb-2">About this data</h4>
+          <p>
+            This data is sourced from Open Source Observer (OSO) via BigQuery.
+            It represents quarterly aggregated funding flows through various
+            open source funding mechanisms.
+          </p>
+          <p className="mt-2">
+            <strong>Note:</strong> The current quarter&apos;s data is still in
+            progress and will continue to update until the quarter ends.
+            Historical quarters show complete funding data.
+          </p>
+          <p className="mt-2">
+            Found an issue with the data? Report it in our{" "}
+            <a
+              href="https://t.me/+fcYxMfa-JmxhOWYx"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-600 hover:underline"
+            >
+              Telegram group
+            </a>
+            .
+          </p>
+        </div>
+      ) : (
+        ""
       )}
     </div>
   );
