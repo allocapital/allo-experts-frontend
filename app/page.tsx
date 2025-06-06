@@ -144,6 +144,7 @@ export default async function Home() {
               </div>
             </div>
             <Image
+              className="border border-green-700"
               src="/allobook-v2.png"
               alt="Allo book cover"
               width={329}
