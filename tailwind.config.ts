@@ -22,8 +22,8 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        mono: ["var(--font-dm-mono)", ...defaultTheme.fontFamily.mono],
-        sans: ["var(--font-dm-sans)", ...defaultTheme.fontFamily.sans],
+        mono: ["DM Mono", ...defaultTheme.fontFamily.mono],
+        sans: ["DM Sans", ...defaultTheme.fontFamily.sans],
       },
       backgroundImage: {
         "hero-bg-gradient": "url('/hero-gradient-bg.png')",

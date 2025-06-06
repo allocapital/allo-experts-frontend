@@ -16,19 +16,19 @@ export const metadata: Metadata = {
       "https://assets-global.website-files.com/6433c5d029c6bb75f3f00bd5/6433c5d029c6bb9127f00c07_gitcoin-fav3.png",
   },
 };
-const mono = DM_Mono({
-  subsets: ["latin"],
-  display: "swap",
-  weight: ["400", "500"],
-  variable: "--font-dm-mono",
-});
+// export const mono = DM_Mono({
+//   subsets: ["latin"],
+//   display: "swap",
+//   weight: ["400", "500"],
+//   variable: "--font-dm-mono",
+// });
 
-const sans = DM_Sans({
-  subsets: ["latin"],
-  display: "swap",
-  weight: ["400", "500", "600", "700", "800"],
-  variable: "--font-dm-sans",
-});
+// const sans = DM_Sans({
+//   subsets: ["latin"],
+//   display: "swap",
+//   weight: ["400", "500", "600", "700", "800"],
+//   variable: "--font-dm-sans",
+// });
 
 export default function RootLayout({
   children,
@@ -37,8 +37,20 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
+        <link
+          href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet"
+        />
+      </head>
       <GoogleAnalytics />
-      <body className={` ${mono.variable} ${sans.variable} font-sans`}>
+      <body className="font-sans">
         <Header />
         {children}
       </body>
